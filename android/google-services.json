@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "505380470476",
+    "project_id": "amr-tv-bangla",
+    "storage_bucket": "amr-tv-bangla.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505380470476:android:fef093148ffb03a3cc4c69",
+        "android_client_info": {
+          "package_name": "com.bmsglobalbd.AmarTV"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505380470476-ehushs9fj9ohusm4g331dksce37q2mgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeBOuNKnxs0N5ZAyhUDcE_qW97Cmz91pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505380470476-ehushs9fj9ohusm4g331dksce37q2mgr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
