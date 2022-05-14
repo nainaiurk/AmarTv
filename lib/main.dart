@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, avoid_unnecessary_containers
 import 'dart:async';
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -689,562 +689,560 @@ class _MyHomePageState extends State<MyHomePage> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return splash
-        ? Scaffold(
-            drawer: Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Drawer(
-                //elevation: 2.0,
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: DrawerHeader(
-                        //curve: Curves.easeInOutBack,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width * 1.0,
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  child: Container(
-                                    margin: const EdgeInsets.only(right: 5.0),
-                                    height: MediaQuery.of(context).size.width *
-                                        0.25,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image:loggedIn==false|| user.isEmpty ||
-                                                user == null ||
-                                                    user[0].image.isEmpty
-                                                ? const AssetImage(
-                                                    "assets/icon/icon.png",
-                                                  )
-                                                : NetworkImage(user[0].image))),
-                                    width: MediaQuery.of(context).size.width *
-                                        0.25,
-                                    // child: Image.asset(
-                                    //   "assets/icon/logo.png",
-                                    //   fit: BoxFit.cover,scale: 2.0,
-                                    // ),
-                                  ),
+      ? Scaffold(
+          drawer: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Drawer(
+              //elevation: 2.0,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: DrawerHeader(
+                      //curve: Curves.easeInOutBack,
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 1.0,
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5.0),
+                                  height: MediaQuery.of(context).size.width *
+                                      0.25,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image:loggedIn==false|| user.isEmpty ||
+                                              user == null ||
+                                                  user[0].image.isEmpty
+                                              ? const AssetImage(
+                                                  "assets/icon/icon.png",
+                                                )
+                                              : NetworkImage(user[0].image))),
+                                  width: MediaQuery.of(context).size.width *
+                                      0.25,
+                                  // child: Image.asset(
+                                  //   "assets/icon/logo.png",
+                                  //   fit: BoxFit.cover,scale: 2.0,
+                                  // ),
                                 ),
-                                Flexible(
-                                    fit: FlexFit.loose,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                    loggedIn==false||user.isEmpty || user == null
-                                            ? Text(
-                                                'Amr TV',
-                                                softWrap: true,
-                                                overflow: TextOverflow.clip,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.05,
-                                                ),
-                                              )
-                                            : Text(
-                                                user[0].name,
-                                                softWrap: true,
-                                                overflow: TextOverflow.clip,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.05,
-                                                ),
+                              ),
+                              Flexible(
+                                  fit: FlexFit.loose,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  loggedIn==false||user.isEmpty || user == null
+                                          ? Text(
+                                              'Amr TV',
+                                              softWrap: true,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.05,
                                               ),
-                                        const SizedBox(
-                                          height: 5.0,
+                                            )
+                                          : Text(
+                                              user[0].name,
+                                              softWrap: true,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.05,
+                                              ),
+                                            ),
+                                      const SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text(
+                                        'Watch Your Favorite Tv Channels',
+                                        softWrap: true,
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(
+                                          //fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context).size.width*0.035,
                                         ),
-                                        Text(
-                                          'Watch Your Favorite Tv Channels',
-                                          softWrap: true,
-                                          overflow: TextOverflow.fade,
-                                          style: TextStyle(
-                                            //fontWeight: FontWeight.bold,
-                                            fontSize: MediaQuery.of(context).size.width*0.035,
-                                          ),
-                                        ),
-                                      ],
-                                    ))
-                              ],
-                            )),
-                      ),
+                                      ),
+                                    ],
+                                  ))
+                            ],
+                          )),
                     ),
-                    Expanded(
-                      flex: 4,
-                      child:
-                         ListView(
-                           children: [
-                            ListTile(
-                              title: Text(
-                                "Home",
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width * 0.05),
-                              ),
-                              leading: Icon(
-                                Icons.home,
-                                size: MediaQuery.of(context).size.width * 0.06,
-                              ),
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child:
+                        ListView(
+                          children: [
+                          ListTile(
+                            title: Text(
+                              "Home",
+                              style: TextStyle(
+                                  fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
                             ),
-                            ListTile(
-                              title: Text(
-                                "All Channels",
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.05),
-                              ),
-                              leading: Icon(
-                                Icons.tv,
-                                size: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.06,
-                              ),
-                              onTap:
-                                  () {
-                                // print('getx getobx');
-                                // print('${channelController.allChannelGet.value.length}');
+                            leading: Icon(
+                              Icons.home,
+                              size: MediaQuery.of(context).size.width * 0.06,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              "All Channels",
+                              style: TextStyle(
+                                  fontSize:
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.05),
+                            ),
+                            leading: Icon(
+                              Icons.tv,
+                              size: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width * 0.06,
+                            ),
+                            onTap:
+                                () {
+                              // print('getx getobx');
+                              // print('${channelController.allChannelGet.value.length}');
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        GridPage(
-                                          channel: channelController.allChannelGet
-                                              .value,
-                                        ),
-                                  ),
-                                ).whenComplete(() {
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.portraitUp]);
-                                });
-                              },
-                            ),
-                            ListTile(
-                              title: Text(
-                                "Favorites",
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width * 0.05),
-                              ),
-                              leading: Icon(
-                                Icons.favorite_border,
-                                size: MediaQuery.of(context).size.width * 0.06,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FavoriteGrid(),
-                                  ),
-                                ).whenComplete(() {
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.portraitUp]);
-                                });
-                              },
-                            ),
-                            ListTile(
-                              title: Text(
-                                "Category",
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width * 0.05),
-                              ),
-                              leading: Icon(
-                                Icons.file_copy,
-                                size: MediaQuery.of(context).size.width * 0.06,
-                              ),
-                              onTap: () {
-                                //Navigator.of(context).pop();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    settings: const RouteSettings(name: 'Category'),
-                                    builder: (context) =>
-                                        Category(m: countryList)
-                                  )
-                                ).whenComplete(() {
-                                    SystemChrome.setPreferredOrientations(
-                                        [DeviceOrientation.portraitUp]);
-                                  }
-                                );
-                              },
-                            ),
-                            ListTile(
-                              title: Text(
-                                "Top 10 Channels",
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width * 0.05),
-                              ),
-                              leading: Icon(
-                                Icons.bar_chart,
-                                size: MediaQuery.of(context).size.width * 0.06,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        settings:
-                                        RouteSettings(name: 'Top 10 page'),
-                                        builder: (context) => TopGridPage()))
-                                    .whenComplete(() {
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.portraitUp]);
-                                });
-                              },
-                            ),
-                            loggedIn == true
-                                ? Container()
-                                : ListTile(
-                              title: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width *
-                                        0.05),
-                              ),
-                              leading: Icon(
-                                Icons.perm_identity_outlined,
-                                size:
-                                MediaQuery.of(context).size.width * 0.06,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        settings:
-                                        RouteSettings(name: 'login page'),
-                                        builder: (context) =>
-                                            SignIn())).whenComplete(() {
-                                  userLoginStatus();
-                                  getUser();
-                                });
-                              },
-                            ),
-                            // ListTile(
-                            //   title: Text(
-                            //     "Get Free Coins",
-                            //     style: TextStyle(
-                            //         fontSize:
-                            //         MediaQuery.of(context).size.width * 0.05,
-                            //         color: Color(0xFFFFD700)),
-                            //   ),
-                            //   leading: Icon(
-                            //     Icons.monetization_on_outlined,
-                            //     size: MediaQuery.of(context).size.width * 0.06,
-                            //     color: Color(0xFFFFD700),
-                            //   ),
-                            //   onTap: () {
-                            //     //load();
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             settings: RouteSettings(name: 'login page'),
-                            //             builder: (context) => Rewards()));
-                            //   },
-                            // ),
-                            ListTile(
-                              title: Text(
-                                "Settings",
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width * 0.05),
-                              ),
-                              leading: Icon(
-                                Icons.settings,
-                                size: MediaQuery.of(context).size.width * 0.06,
-                              ),
-                              onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         settings: RouteSettings(name: 'Settings'),
-                                //         builder: (context) => Settings()));
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                    builder: (_) => const Settings()))
-                                    .whenComplete(() {
-                                  getUser();
-                                  userLoginStatus();
-                                });
-                              },
-                            ),
-                          ]
-                        ),
-
-                    )
-                  ],
-                ),
-              ),
-            ),
-            appBar: AppBar(
-              title: !isSearching
-                  ? Text(
-                      widget.title,
-                    )
-                  : Container(
-                      //search bar
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.width * 0.1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        color: Theme.of(context).hintColor,
-                        //boxShadow: kElevationToShadow[6],
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(32),
-                                //color: Theme.of(context).canvasColor,
-                              ),
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Theme(
-                                data: ThemeData(
-                                  colorScheme: ThemeData().colorScheme.copyWith(
-                                        primary: Colors.grey[700],
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      GridPage(
+                                        channel: channelController.allChannelGet
+                                            .value,
                                       ),
                                 ),
-                                child: TextField(
-                                  controller: _controller,
-                                  enableInteractiveSelection: true,
-                                  enableSuggestions: true,
-                                  cursorColor: Colors.red,
-                                  cursorWidth: 2,
-                                  cursorHeight: 20,
-                                  autofocus: false,
-                                  onSubmitted: (string) {
-                                    setState(() {
-                                      isSearching = !isSearching;
-                                    });
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Search(
-                                                  filteredChannel:
-                                                      filteredChannel,
-                                                  string: string,
-                                                  allChannel: allChannels,
-                                                ))).whenComplete(() {
-                                      SystemChrome.setPreferredOrientations(
-                                          [DeviceOrientation.portraitUp]);
-                                    });
-                                  },
-                                  onChanged: (string) {
-                                    setState(() {
-                                      filteredChannel = allChannels
-                                          .where((element) => (element
-                                              .channelname
-                                              .toLowerCase()
-                                              .contains(string.toLowerCase())))
-                                          .toList();
-                                    });
-                                  },
-                                  textAlign: TextAlign.center,
-                                  decoration: InputDecoration(
-                                    //hintMaxLines: 3,
-                                    hintText: 'Search Channel Name',
-                                    suffixIcon: IconButton(
-                                      icon: const Icon(Icons.search),
-                                      //splashColor: Colors.blue,
-                                      splashRadius: 5.0,
-                                      //color: Colors.grey,
-                                      onPressed: () {
-                                        setState(() {
-                                          isSearching = !isSearching;
-                                        });
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Search(
-                                                      filteredChannel:
-                                                          filteredChannel,
-                                                      string: _controller.text,
-                                                      allChannel: allChannels,
-                                                    ))).whenComplete(() {
-                                          SystemChrome.setPreferredOrientations(
-                                              [DeviceOrientation.portraitUp]);
-                                        });
-                                      },
+                              ).whenComplete(() {
+                                SystemChrome.setPreferredOrientations(
+                                    [DeviceOrientation.portraitUp]);
+                              });
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              "Favorites",
+                              style: TextStyle(
+                                  fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                            ),
+                            leading: Icon(
+                              Icons.favorite_border,
+                              size: MediaQuery.of(context).size.width * 0.06,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FavoriteGrid(),
+                                ),
+                              ).whenComplete(() {
+                                SystemChrome.setPreferredOrientations(
+                                    [DeviceOrientation.portraitUp]);
+                              });
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              "Category",
+                              style: TextStyle(
+                                  fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                            ),
+                            leading: Icon(
+                              Icons.file_copy,
+                              size: MediaQuery.of(context).size.width * 0.06,
+                            ),
+                            onTap: () {
+                              //Navigator.of(context).pop();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  settings: const RouteSettings(name: 'Category'),
+                                  builder: (context) =>
+                                      Category(m: countryList)
+                                )
+                              ).whenComplete(() {
+                                  SystemChrome.setPreferredOrientations(
+                                      [DeviceOrientation.portraitUp]);
+                                }
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              "Top 10 Channels",
+                              style: TextStyle(
+                                  fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                            ),
+                            leading: Icon(
+                              Icons.bar_chart,
+                              size: MediaQuery.of(context).size.width * 0.06,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      settings:
+                                      RouteSettings(name: 'Top 10 page'),
+                                      builder: (context) => TopGridPage()))
+                                  .whenComplete(() {
+                                SystemChrome.setPreferredOrientations(
+                                    [DeviceOrientation.portraitUp]);
+                              });
+                            },
+                          ),
+                          loggedIn == true
+                              ? Container()
+                              : ListTile(
+                            title: Text(
+                              "Sign In",
+                              style: TextStyle(
+                                  fontSize:
+                                  MediaQuery.of(context).size.width *
+                                      0.05),
+                            ),
+                            leading: Icon(
+                              Icons.perm_identity_outlined,
+                              size:
+                              MediaQuery.of(context).size.width * 0.06,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      settings:
+                                      RouteSettings(name: 'login page'),
+                                      builder: (context) =>
+                                          SignIn())).whenComplete(() {
+                                userLoginStatus();
+                                getUser();
+                              });
+                            },
+                          ),
+                          // ListTile(
+                          //   title: Text(
+                          //     "Get Free Coins",
+                          //     style: TextStyle(
+                          //         fontSize:
+                          //         MediaQuery.of(context).size.width * 0.05,
+                          //         color: Color(0xFFFFD700)),
+                          //   ),
+                          //   leading: Icon(
+                          //     Icons.monetization_on_outlined,
+                          //     size: MediaQuery.of(context).size.width * 0.06,
+                          //     color: Color(0xFFFFD700),
+                          //   ),
+                          //   onTap: () {
+                          //     //load();
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             settings: RouteSettings(name: 'login page'),
+                          //             builder: (context) => Rewards()));
+                          //   },
+                          // ),
+                          ListTile(
+                            title: Text(
+                              "Settings",
+                              style: TextStyle(
+                                  fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                            ),
+                            leading: Icon(
+                              Icons.settings,
+                              size: MediaQuery.of(context).size.width * 0.06,
+                            ),
+                            onTap: () {
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         settings: RouteSettings(name: 'Settings'),
+                              //         builder: (context) => Settings()));
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                  builder: (_) => const Settings()))
+                                  .whenComplete(() {
+                                getUser();
+                                userLoginStatus();
+                              });
+                            },
+                          ),
+                        ]
+                      ),
+
+                  )
+                ],
+              ),
+            ),
+          ),
+          appBar: AppBar(
+            title: !isSearching
+                ? Text(
+                    widget.title,
+                  )
+                : Container(
+                    //search bar
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.width * 0.1,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(32),
+                      color: Theme.of(context).hintColor,
+                      //boxShadow: kElevationToShadow[6],
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32),
+                              //color: Theme.of(context).canvasColor,
+                            ),
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Theme(
+                              data: ThemeData(
+                                colorScheme: ThemeData().colorScheme.copyWith(
+                                      primary: Colors.grey[700],
                                     ),
-                                    hintStyle: TextStyle(color: Colors.black54),
-                                    border: InputBorder.none,
-                                    //fillColor: Colors.red,
+                              ),
+                              child: TextField(
+                                controller: _controller,
+                                enableInteractiveSelection: true,
+                                enableSuggestions: true,
+                                cursorColor: Colors.red,
+                                cursorWidth: 2,
+                                cursorHeight: 20,
+                                autofocus: false,
+                                onSubmitted: (string) {
+                                  setState(() {
+                                    isSearching = !isSearching;
+                                  });
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Search(
+                                                filteredChannel:
+                                                    filteredChannel,
+                                                string: string,
+                                                allChannel: allChannels,
+                                              ))).whenComplete(() {
+                                    SystemChrome.setPreferredOrientations(
+                                        [DeviceOrientation.portraitUp]);
+                                  });
+                                },
+                                onChanged: (string) {
+                                  setState(() {
+                                    filteredChannel = allChannels
+                                        .where((element) => (element
+                                            .channelname
+                                            .toLowerCase()
+                                            .contains(string.toLowerCase())))
+                                        .toList();
+                                  });
+                                },
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                  //hintMaxLines: 3,
+                                  hintText: 'Search Channel Name',
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.search),
+                                    //splashColor: Colors.blue,
+                                    splashRadius: 5.0,
+                                    //color: Colors.grey,
+                                    onPressed: () {
+                                      setState(() {
+                                        isSearching = !isSearching;
+                                      });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Search(
+                                                    filteredChannel:
+                                                        filteredChannel,
+                                                    string: _controller.text,
+                                                    allChannel: allChannels,
+                                                  ))).whenComplete(() {
+                                        SystemChrome.setPreferredOrientations(
+                                            [DeviceOrientation.portraitUp]);
+                                      });
+                                    },
                                   ),
+                                  hintStyle: TextStyle(color: Colors.black54),
+                                  border: InputBorder.none,
+                                  //fillColor: Colors.red,
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-              actions: <Widget>[
-                IconButton(
-                  icon: !isSearching ? const Icon(Icons.search) : const Icon(Icons.close),
-                  onPressed: () {
-                    setState(() {
-                      isSearching = !isSearching;
-                    });
-                  },
-                )
-              ],
-              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-            ),
-            backgroundColor: Theme.of(context).backgroundColor,
-            body: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              //reverse: true,
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 10,),
-                  const SizedBox(height: 20,),
-                  allFeatures != null
-                    ? CarouselSlider.builder(
-                        options: CarouselOptions(
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          autoPlay: false,
-                          //pageSnapping : false,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          //aspectRatio: 16/9,
-                          viewportFraction: 0.85,
-                          initialPage: 0,
-                          enableInfiniteScroll: false,
-                          enlargeCenterPage: true,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _current = index;
-                            });
-                          },
-                          scrollDirection: Axis.horizontal
                         ),
-                        itemCount: featureList.length,
-                        itemBuilder:
-                            (BuildContext context, int itemIndex, r) {
-                          return (featureList.isNotEmpty)
-                              ? InkWell(
-                                  onTap: () {
-                                    List<ModelChannel> m = convertFeatured(
-                                        featureList[itemIndex]);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => GridPage(
-                                                channel: m,
-                                              )),
-                                    ).whenComplete(() {
-                                      SystemChrome.setPreferredOrientations(
-                                          [DeviceOrientation.portraitUp]);
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            'https://amrtvbangla.bmssystems.org/${featureList[itemIndex].elementAt(0).featureimagepath}'),
-                                        fit: BoxFit.cover,
-                                      ),
+                      ],
+                    ),
+                  ),
+            actions: <Widget>[
+              IconButton(
+                icon: !isSearching ? const Icon(Icons.search) : const Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    isSearching = !isSearching;
+                  });
+                },
+              )
+            ],
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          ),
+          backgroundColor: Theme.of(context).backgroundColor,
+          body: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            //reverse: true,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 10,),
+                const SizedBox(height: 20,),
+                allFeatures != null
+                  ? CarouselSlider.builder(
+                      options: CarouselOptions(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        autoPlay: false,
+                        //pageSnapping : false,
+                        enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                        //aspectRatio: 16/9,
+                        viewportFraction: 0.85,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        },
+                        scrollDirection: Axis.horizontal
+                      ),
+                      itemCount: featureList.length,
+                      itemBuilder:
+                          (BuildContext context, int itemIndex, r) {
+                        return (featureList.isNotEmpty)
+                            ? InkWell(
+                                onTap: () {
+                                  List<ModelChannel> m = convertFeatured(
+                                      featureList[itemIndex]);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => GridPage(
+                                              channel: m,
+                                            )),
+                                  ).whenComplete(() {
+                                    SystemChrome.setPreferredOrientations(
+                                        [DeviceOrientation.portraitUp]);
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://amrtvbangla.bmssystems.org/${featureList[itemIndex].elementAt(0).featureimagepath}'),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                )
-                              : const CircularProgressIndicator();
-                        },
-                      )
-                    : Container(),
-                  Row(
-                    //for determining image position
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: featureList.map((url) {
-                      int index = featureList.indexOf(url);
-                      return Container(
-                        width: 8.0,
-                        height: 8.0,
-                        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          // boxShadow: BoxShadow(color: ),
-                          color: _current == index
-                              ? const Color.fromRGBO(246, 3, 3, 0.9019607843137255)
-                              : const Color.fromRGBO(113, 111, 111, 1.0),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: countryList.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    addAutomaticKeepAlives: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: Column(
-                          children: [
-                            CountryName(countryList[index]),
-                            Scroll(
-                              allChannels: allChannels,
-                              channel: countryList[index],
-                            ),
-                            const SizedBox(height: 10,),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    height: 72,
-                  ),
-                ],
-              ),
-            ),
-          )
-        : Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Container(
-                  margin:
-                      EdgeInsets.only(top: height * 0.4, bottom: height * 0.3),
-                  child: Image.asset(
-                    "assets/image/spash1.gif",
-                    //fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.width * 0.2,
-                  ),
+                                ),
+                              )
+                            : const CircularProgressIndicator();
+                      },
+                    )
+                  : Container(),
+                Row(
+                  //for determining image position
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: featureList.map((url) {
+                    int index = featureList.indexOf(url);
+                    return Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        // boxShadow: BoxShadow(color: ),
+                        color: _current == index
+                            ? const Color.fromRGBO(246, 3, 3, 0.9019607843137255)
+                            : const Color.fromRGBO(113, 111, 111, 1.0),
+                      ),
+                    );
+                  }).toList(),
                 ),
-                Text("www.bmssystems.org",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: width * 0.04,
-                        decoration: TextDecoration.none)),
+                const SizedBox(height: 20,),
+                ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: countryList.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  addAutomaticKeepAlives: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      height: height*0.2,
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CountryName(countryList[index]),
+                          Scroll(
+                            allChannels: allChannels,
+                            channel: countryList[index],
+                          ),
+                          const SizedBox(height: 10,),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 72,),
               ],
             ),
-          );
+          ),
+        )
+      : Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Container(
+                margin:
+                    EdgeInsets.only(top: height * 0.4, bottom: height * 0.3),
+                child: Image.asset(
+                  "assets/image/spash1.gif",
+                  //fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                ),
+              ),
+              Text("www.bmssystems.org",
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: width * 0.04,
+                      decoration: TextDecoration.none)),
+            ],
+          ),
+        );
   }
 
   // modelFavorite to modelChannel

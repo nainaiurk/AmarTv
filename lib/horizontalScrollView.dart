@@ -155,7 +155,7 @@ class _ScrollState extends State<Scroll> {
     return (channel.isEmpty)
         ? const SizedBox(height: 0.1,)
         : Container(
-            height: height * 0.2,
+            height: height * 0.14,
             child: ListView.separated(
               // padding: const EdgeInsets.all(8),
               //shrinkWrap: true,
@@ -174,7 +174,6 @@ class _ScrollState extends State<Scroll> {
                 );
                 ads['myBanner$index'].load();
                 // print('index $index');
-
                 int temp;
                 if (index % 3 == 1) {
                   temp = index;
