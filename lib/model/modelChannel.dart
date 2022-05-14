@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 class ModelChannel {
@@ -84,9 +86,7 @@ class EnumValues<T> {
   EnumValues(this.map);
 
   Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) =>  MapEntry(v, k));
-    }
+    reverseMap ??= map.map((k, v) =>  MapEntry(v, k));
     return reverseMap;
   }
 }

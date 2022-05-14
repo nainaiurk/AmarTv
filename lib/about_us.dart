@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:live_tv/theme_manager.dart';
 import 'package:provider/provider.dart';

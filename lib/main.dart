@@ -32,7 +32,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'rewards.dart';
 
 Future<void> main() async {
   // setUpLocator();
@@ -54,6 +53,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -475,14 +476,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<List<ModelChannel>> getData(http.Client client) async {
-   print('getx getdata');
-   print('${channelController.allChannelGet.value.length}');
+  //  print('getx getdata');
+  //  print('${channelController.allChannelGet.value.length}');
 
     final response = await http
         .get('https://amrtvbangla.bmssystems.org/fetch_jason_all_channels.php');
-    print(response.statusCode);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
-      this.setState(() {
+      setState(() {
         allChannels = parseChannel(response.body);
       });
 
@@ -523,7 +524,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -554,7 +555,7 @@ class _MyHomePageState extends State<MyHomePage> {
         if (_connectionStatus.contains("Failed")) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(_connectionStatus),
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
           ));
         }
 
@@ -568,20 +569,20 @@ class _MyHomePageState extends State<MyHomePage> {
       modelVersion = value;
       s1 = modelVersion.s0;
       version = s1;
-      print("s1 " + s1);
+      // print("s1 " + s1);
 
     }).whenComplete(() {
       PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
         s2 = packageInfo.version;
         appVersion = s2;
         sub = s2.substring(0, 1);
-        print("s2 " + sub);
+        // print("s2 " + sub);
       }).whenComplete(() {
         if (s1.compareTo(sub) == 0) {
-          print("equal");
+          // print("equal");
         } else {
-          print("not equal");
-          Future.delayed(Duration(seconds: 5), () {
+          // print("not equal");
+          Future.delayed(const Duration(seconds: 5), () {
             _showPopUpDialog(context);
           });
         }
@@ -602,23 +603,20 @@ class _MyHomePageState extends State<MyHomePage> {
    bool temp;
    userLoginStatus().then((value) {
      temp=value;
-     print(value);
+    //  print(value);
    });
     _loadCounter().then((value) {
 
       if ((temp != true) &&
           (value != null && value % 5 == 0) &&
           (version == appVersion)) {
-        print("now");
-        print("get counter"+_counter.toString());
-        Future.delayed(Duration(seconds: 5), () {
+        // print("now");
+        // print("get counter"+_counter.toString());
+        Future.delayed(const Duration(seconds: 5), () {
           _showDialog(context);
         });
-
       }
-
     });
-
   }
 
 
@@ -668,8 +666,9 @@ class _MyHomePageState extends State<MyHomePage> {
     _incrementCounter();
 
     //print("counter "+_counter.toString());
-    this.getData(http.Client());
-    this.getFeaturedData(http.Client());
+    
+    getData(http.Client());
+    getFeaturedData(http.Client());
     load().then((value) {
       counter = value;
     });
@@ -820,8 +819,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               onTap:
                                   () {
-                                print('getx getobx');
-                                print('${channelController.allChannelGet.value.length}');
+                                // print('getx getobx');
+                                // print('${channelController.allChannelGet.value.length}');
 
                                 Navigator.push(
                                   context,
@@ -875,15 +874,17 @@ class _MyHomePageState extends State<MyHomePage> {
                               onTap: () {
                                 //Navigator.of(context).pop();
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        settings: RouteSettings(name: 'Category'),
-                                        builder: (context) =>
-                                            Category(m: countryList))).whenComplete(
-                                        () {
-                                      SystemChrome.setPreferredOrientations(
-                                          [DeviceOrientation.portraitUp]);
-                                    });
+                                  context,
+                                  MaterialPageRoute(
+                                    settings: const RouteSettings(name: 'Category'),
+                                    builder: (context) =>
+                                        Category(m: countryList)
+                                  )
+                                ).whenComplete(() {
+                                    SystemChrome.setPreferredOrientations(
+                                        [DeviceOrientation.portraitUp]);
+                                  }
+                                );
                               },
                             ),
                             ListTile(
@@ -1115,30 +1116,27 @@ class _MyHomePageState extends State<MyHomePage> {
               //reverse: true,
               child: Column(
                 children: <Widget>[
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 10,),
+                  const SizedBox(height: 20,),
                   allFeatures != null
                     ? CarouselSlider.builder(
                         options: CarouselOptions(
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            autoPlay: false,
-                            //pageSnapping : false,
-                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                            //aspectRatio: 16/9,
-                            viewportFraction: 0.85,
-                            initialPage: 0,
-                            enableInfiniteScroll: false,
-                            enlargeCenterPage: true,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                _current = index;
-                              });
-                            },
-                            scrollDirection: Axis.horizontal),
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          autoPlay: false,
+                          //pageSnapping : false,
+                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                          //aspectRatio: 16/9,
+                          viewportFraction: 0.85,
+                          initialPage: 0,
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _current = index;
+                            });
+                          },
+                          scrollDirection: Axis.horizontal
+                        ),
                         itemCount: featureList.length,
                         itemBuilder:
                             (BuildContext context, int itemIndex, r) {
@@ -1210,7 +1208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Scroll(
                               allChannels: allChannels,
                               channel: countryList[index],
-                              ),
+                            ),
                             const SizedBox(height: 10,),
                           ],
                         ),

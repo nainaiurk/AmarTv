@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:live_tv/gridview.dart';
@@ -63,7 +64,7 @@ class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
     //if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-    print(channel.length);
+    // print(channel.length);
     super.initState();
   }
 
@@ -73,7 +74,7 @@ class _MyHomeState extends State<MyHome> {
         backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           //color: Colors.black,
           onPressed: () {
             //Navigator.pop(context); //returns black screen
@@ -81,7 +82,7 @@ class _MyHomeState extends State<MyHome> {
           },
         ),
         //backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "Categories",
           style: TextStyle(
               //color: Colors.black
@@ -90,20 +91,21 @@ class _MyHomeState extends State<MyHome> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           ListView.builder(
             addAutomaticKeepAlives: false,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: channel.length,
             itemBuilder: (BuildContext context, int index) {
-              return Column(children: [
+              return Column(
+                children: [
                 InkWell(
                   onTap:(){
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            settings: RouteSettings(name: 'Grid View'),
+                            settings: const RouteSettings(name: 'Grid View'),
                             builder: (context) => GridPage(
                               channel: channel[index],
                             ))).whenComplete(() {
@@ -113,7 +115,7 @@ class _MyHomeState extends State<MyHome> {
                   child: Container(
                     height:MediaQuery.of(context).size.height*0.04,
                     width: MediaQuery.of(context).size.width*0.80,
-                    decoration: BoxDecoration(
+                    decoration:const BoxDecoration(
                      // color: Color(0xff3accce),
                       color: Color(0xFFDBD8CC),
                       //shape: BoxShape.circle,
@@ -124,7 +126,7 @@ class _MyHomeState extends State<MyHome> {
                       child: Text(
                         channel[index].elementAt(0).categoryname,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.black,
                         fontWeight: FontWeight.bold
                         ),
@@ -132,7 +134,7 @@ class _MyHomeState extends State<MyHome> {
                     ),
                   ),
                 ),
-                SizedBox(height: 5,)
+                const SizedBox(height: 5,)
               ]);
             },
           )

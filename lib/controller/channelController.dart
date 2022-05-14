@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'dart:convert';
 
 import 'package:get/get.dart';
@@ -36,13 +38,13 @@ class ChannelController extends GetxController {
   Future<List<ModelChannel>> getData() async {
     final response = await http
         .get('https://amrtvbangla.bmssystems.org/fetch_jason_all_channels.php');
-    print(response.statusCode);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
-      print('getx res');
+      // print('getx res');
 
       allChannelsResponse = parseChannel(response.body);
 
-      print('getx parse');
+      // print('getx parse');
 
       allChannelsResponse.forEach((element) {
         if (channelType.isEmpty) {
