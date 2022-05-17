@@ -36,45 +36,45 @@ class CountryName extends StatelessWidget {
                 ),
               ),
             ),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    settings: const RouteSettings(name: 'Grid View'),
-                    builder: (context) => GridPage(
-                          channel: channel,
-                        ))).whenComplete(() {
-              SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-            });
-          },
-          child: channel.length > 5
-              ? Container(
-                  margin: EdgeInsets.only(right: width*0.01),
-                    height: height * 0.03,
-                    width: width * 0.18,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                    ),
-                    alignment: Alignment.center,
-                    //padding: EdgeInsets.all(10),
-                    child: Text(
-                      "See All",
-                      softWrap: true,
-                      //textAlign: TextAlign.center,
-                      style: TextStyle(
-                        //backgroundColor: Colors.red,
-                        fontWeight: FontWeight.bold, fontSize: width * 0.03,
-                        color: Colors.white,
-                        // background:,
-                      ),
-                    ),
-                  )
-              : const SizedBox(
-                  // height: 1,
-                  // width: 1,
-                  ),
-        ),
+        // InkWell(
+        //   onTap: () {
+        //     Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //             settings: const RouteSettings(name: 'Grid View'),
+        //             builder: (context) => GridPage(
+        //                   channel: channel,
+        //                 ))).whenComplete(() {
+        //       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+        //     });
+        //   },
+        //   child: channel.length > 5
+        //       ? Container(
+        //           margin: EdgeInsets.only(right: width*0.01),
+        //             height: height * 0.03,
+        //             width: width * 0.18,
+        //             decoration: const BoxDecoration(
+        //               color: Colors.red,
+        //             ),
+        //             alignment: Alignment.center,
+        //             //padding: EdgeInsets.all(10),
+        //             child: Text(
+        //               "See All",
+        //               softWrap: true,
+        //               //textAlign: TextAlign.center,
+        //               style: TextStyle(
+        //                 //backgroundColor: Colors.red,
+        //                 fontWeight: FontWeight.bold, fontSize: width * 0.03,
+        //                 color: Colors.white,
+        //                 // background:,
+        //               ),
+        //             ),
+        //           )
+        //       : const SizedBox(
+        //           // height: 1,
+        //           // width: 1,
+        //           ),
+        // ),
       ],
     );
   }
