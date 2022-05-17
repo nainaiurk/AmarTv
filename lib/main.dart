@@ -998,16 +998,16 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             title: !isSearching
                 ? Row(
-                  children: [
-                    Image.asset(
-                      'assets/icon/icon.png',
-                      height: 40,
-                    ),
-                    Text(
-                        widget.title,
+                    children: [
+                      Image.asset(
+                        'assets/icon/icon.png',
+                        height: 40,
                       ),
-                  ],
-                )
+                      Text(
+                          widget.title,
+                        ),
+                    ],
+                  )
                 : Container(
                     //search bar
                     width: MediaQuery.of(context).size.width * 0.8,
@@ -1231,24 +1231,10 @@ class _MyHomePageState extends State<MyHomePage> {
       : Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Container(
-                margin:
-                    EdgeInsets.only(top: height * 0.4, bottom: height * 0.3),
-                child: Image.asset(
-                  "assets/image/spash1.gif",
-                  //fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                ),
-              ),
-              Text("www.bmssystems.org",
-                  style: TextStyle(
-                      color: Colors.red,
-                      fontSize: width * 0.04,
-                      decoration: TextDecoration.none)),
-            ],
+          margin:EdgeInsets.only(top: height * 0.45, bottom: height * 0.45),
+          child: Image.asset(
+            "assets/image/spash1.gif",
+            //fit: BoxFit.cover,
           ),
         );
   }
