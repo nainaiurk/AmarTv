@@ -997,9 +997,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           appBar: AppBar(
             title: !isSearching
-                ? Text(
-                    widget.title,
-                  )
+                ? Row(
+                  children: [
+                    Image.asset(
+                      'assets/icon/icon.png',
+                      height: 40,
+                    ),
+                    Text(
+                        widget.title,
+                      ),
+                  ],
+                )
                 : Container(
                     //search bar
                     width: MediaQuery.of(context).size.width * 0.8,
