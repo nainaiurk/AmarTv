@@ -270,37 +270,37 @@ class _ScrollState extends State<Scroll> {
                             //   }
                             // }
                             if (sortedChannel[index].channelurl == null) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  backgroundColor: Colors.purpleAccent[800],
-                                  behavior: SnackBarBehavior.floating,
-                                  //width: MediaQuery.of(context).size.width*0.5,
-                                  elevation: 20.0,
-                                  content: const Text(
-                                    "The channel is not live now, try again later",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  duration: const Duration(seconds: 5),
-                                ));
-                              } 
-                              else {
-                                //Navigator.push( context, MaterialPageRoute( builder: (context) => SecondPage()), ).then((value) => setState(() {}));
-                                // int i = await load();
-                                // print('befores ${channel.length}');
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      settings: const RouteSettings(
-                                          name: 'youtube player'),
-                                      builder: (context) => LiveTvPlayer(
-                                            channel: sortedChannel[index],
-                                          )),
-                                ).whenComplete(() {
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.portraitUp]);
-                                });
-                                _sendChannelInfo(sortedChannel[index]);
-                              }
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                backgroundColor: Colors.purpleAccent[800],
+                                behavior: SnackBarBehavior.floating,
+                                //width: MediaQuery.of(context).size.width*0.5,
+                                elevation: 20.0,
+                                content: const Text(
+                                  "The channel is not live now, try again later",
+                                  textAlign: TextAlign.center,
+                                ),
+                                duration: const Duration(seconds: 5),
+                              ));
+                            } 
+                            else {
+                              //Navigator.push( context, MaterialPageRoute( builder: (context) => SecondPage()), ).then((value) => setState(() {}));
+                              // int i = await load();
+                              // print('befores ${channel.length}');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    settings: const RouteSettings(
+                                        name: 'youtube player'),
+                                    builder: (context) => LiveTvPlayer(
+                                          channel: sortedChannel[index],
+                                        )),
+                              ).whenComplete(() {
+                                SystemChrome.setPreferredOrientations(
+                                    [DeviceOrientation.portraitUp]);
+                              });
+                              _sendChannelInfo(sortedChannel[index]);
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -316,9 +316,9 @@ class _ScrollState extends State<Scroll> {
                             width: width * 0.28,
                             child: Column(
                               // mainAxisSize: MainAxisSize.min,
-                              // mainAxisAlignment: MainAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                const SizedBox(height: 1.5,),
+                                const SizedBox(height: 3,),
                                 sortedChannel[index].channelurl !=null
                                   ? FadeInImage.assetNetwork(
                                       placeholder:'assets/image/placeHolder.png',
@@ -329,31 +329,33 @@ class _ScrollState extends State<Scroll> {
                                       fadeInDuration:const Duration(seconds: 5),
                                       fadeInCurve: Curves.bounceIn,
                                     )                    
-                                  : ImageBlur.asset(
-                                      "assets/icon/icon.png",
-                                      height: height*0.08,
-                                      //scale: 1.0,
-                                      width: width * 0.25,
-                                      fit: BoxFit.cover,
-                                      blur: 4,
-                                      overlay: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.error_outline_sharp,
-                                            size: height *0.02,
-                                            color: Colors.white,
+                                  : Padding(
+                                      padding: const EdgeInsets.only(top: 3),
+                                      child: ImageBlur.asset(
+                                          "assets/icon/icon.png",
+                                          height: height*0.07,
+                                          width: width * 0.25,
+                                          fit: BoxFit.fitHeight,
+                                          blur: 4,
+                                          overlay: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.error_outline_sharp,
+                                                size: height *0.02,
+                                                color: Colors.white,
+                                              ),
+                                              Text(
+                                                "Not Live",
+                                                textAlign:TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize:width * 0.03,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            "Not Live",
-                                            textAlign:TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize:width * 0.03,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
                                     ),
                                 // (index == 5)
                                 //   ? Blur(
@@ -391,19 +393,48 @@ class _ScrollState extends State<Scroll> {
               },
               separatorBuilder: (BuildContext context, int index) {
                 return (index % 3 == 1)
-                  ? Container(
-                      alignment: Alignment.center,
-                      child: Center(child: AdWidget(ad: ads['myBanner$index'])),
-                      // margin: EdgeInsets.symmetric(
-                      // vertical: 00.0, horizontal: 3.0),
-                      // padding: const EdgeInsets.only(bottom: 50),
-                      height: height * 0.1,
-                      width: width * 0.28,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const BoxDecoration(
-                          // color: Colors.red,
+                  ? Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: Colors.white38,
+                            // width: 8
                           ),
-                    )
+                          color: Colors.white12
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+                        height: height * 0.12,
+                        width: width * 0.28,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 10,),
+                            Container(
+                              height: height*0.065,
+                              width: width * 0.25,
+                              child: AdWidget(ad: ads['myBanner$index'],)
+                            ),
+                            const SizedBox(height: 5,),
+                            Text(
+                                'Amr TV',
+                                style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.0135,
+                                    color: Colors.white60
+                                  ),
+                                textAlign: TextAlign.center,
+                              ),
+                          ],
+                        ),
+                        // margin: EdgeInsets.symmetric(
+                        // vertical: 00.0, horizontal: 3.0),
+                        // padding: const EdgeInsets.only(bottom: 50),
+                        // clipBehavior: Clip.antiAlias,
+                      ),
+                    ],
+                  )
                   : const Divider();
               },
             ),
