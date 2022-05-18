@@ -5,7 +5,6 @@ import 'package:floating/floating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:live_tv/controller/channelController.dart';
 import 'helper/database_helper_favorite.dart';
 import 'package:live_tv/model/modelChannel.dart';
@@ -50,7 +49,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState(this.channel);
 
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<List<Favorite>> f;
 
   int _counter = 0;
@@ -103,13 +102,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  _incrementCounter() async {
-    SharedPreferences preferences = await _prefs;
-    setState(() {
-      _counter = (preferences.getInt('counter') ?? 0) + 1;
-      preferences.setInt('counter', _counter);
-    });
-  }
+  // _incrementCounter() async {
+  //   SharedPreferences preferences = await _prefs;
+  //   setState(() {
+  //     _counter = (preferences.getInt('counter') ?? 0) + 1;
+  //     preferences.setInt('counter', _counter);
+  //   });
+  // }
 
   // Future<int> check() async {
   //  a= await DatabaseHelper.instance.checkChannel(channel.channelid);
@@ -243,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void removeImage() {
     setState(() {
-      print('listeners');
+      // print('listeners');
       delay = true;
     });
   }
@@ -257,13 +256,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> enablePip() async {
     final enabledSuccessfully = await Floating.enablePip();
-    print('PiP enabled? $enabledSuccessfully');
+    // print('PiP enabled? $enabledSuccessfully');
   }
 
   var pageLink = "https://m.me/100453655696187";
 
-  void _launchURL() async => await canLaunch(pageLink)
-      ? await launch(pageLink)
+  void _launchURL() async => await canLaunchUrl(Uri.parse(pageLink))
+      ? await launchUrl(Uri.parse(pageLink))
       : throw 'Could not launchs $pageLink';
 
   final ChannelController channelController = Get.put(ChannelController());
@@ -285,6 +284,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return YoutubePlayerBuilder(
       onEnterFullScreen: () {
         SystemChrome.setPreferredOrientations(
@@ -361,7 +362,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 margin: const EdgeInsets.all(5),
                 height: 50,
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red[200], width: 1.0)),
+                  border: Border.all(color: Colors.red[200], width: 1.0)
+                ),
                 width: MediaQuery.of(context).size.width,
                 //color: Colors.black12,
                 child: Row(
@@ -560,51 +562,62 @@ class _MyHomePageState extends State<MyHomePage> {
                         // decrement();
                       },
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          channelController.allTVChannelCategory[index].channelimage !=null
-                            ? CachedNetworkImage(
-                            width: 150,
-                            height: 150,
-                            imageUrl: channelController
-                                .allTVChannelCategory[index]
-                                .channelimage,
-                            placeholder: (context, url) =>const Center(
-                                child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(Icons.error),
-                                    Text('No Image Found'),
-                                  ],
+                          const SizedBox(height: 5,),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.white38,
+                                // width: 8
+                              ),
+                              color: Colors.white12
+                            ),
+                            height: height * 0.12,
+                            width: width * 0.27,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                channelController.allTVChannelCategory[index].channelimage !=null
+                                  ? CachedNetworkImage(
+                                      height: height*0.08,
+                                      width: width * 0.25,
+                                      fit: BoxFit.fitHeight,
+                                      imageUrl: channelController.allTVChannelCategory[index].channelimage,
+                                      placeholder: (context, url) =>const Center(child: CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: const [
+                                            Icon(Icons.error),
+                                            Center(child: Text('No Image Found',textAlign: TextAlign.center,),),
+                                          ],
+                                        ),
+                                    )
+                                  : Container(),
+                                Text(
+                                  channelController.allTVChannelCategory[index].channelname,
+                                  style: TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: height * 0.0135,
+                                      color: Colors.white60
+                                    ),
+                                  textAlign: TextAlign.center,
                                 ),
-                          )
-                              : Container(),
 
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                channelController.allTVChannelCategory[index].channelname,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            ],
+                                // Image.network("${allTVChannelCategory[index].channelimage}",scale: 5,),
+                                // Text('lol'),
+                              ],
+                            ),
                           ),
-
-                          // Image.network("${allTVChannelCategory[index].channelimage}",scale: 5,),
-                          // Text('lol'),
                         ],
                       ),
                     );
                   }
                 ),
               ),
-
               // Expanded(
               //   child: ListView.builder(
               //       scrollDirection: Axis.vertical,

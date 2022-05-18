@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, file_names
+// ignore_for_file: must_be_immutable, file_names, prefer_final_fields, sized_box_for_whitespace
 
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +12,9 @@ class Scroll extends StatefulWidget {
   final List<ModelChannel> channel;
   final List<ModelChannel> allChannels;
 
-  Future<SharedPreferences> _prf = SharedPreferences.getInstance();
+  // final Future<SharedPreferences> _prf = SharedPreferences.getInstance();
 
-  Scroll({Key key, this.channel, this.allChannels}) : super(key: key);
+  const Scroll({Key key, this.channel, this.allChannels}) : super(key: key);
 
   @override
   _ScrollState createState() => _ScrollState(channel, allChannels);
@@ -168,7 +168,7 @@ class _ScrollState extends State<Scroll> {
                   adUnitId: 'ca-app-pub-3940256099942544/6300978111',
                   size: AdSize.largeBanner,
                   request: const AdRequest(),
-                  listener: AdListener(
+                  listener: BannerAdListener(
                     onAdClosed: (ad) => ad.dispose(),
                   ),
                 );
@@ -331,11 +331,11 @@ class _ScrollState extends State<Scroll> {
                                     )                    
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 3),
-                                      child: ImageBlur.asset(
+                                      child: Image.asset(
                                           "assets/icon/icon.png",
                                           height: height*0.07,
                                           width: width * 0.25,
-                                          fit: BoxFit.fitHeight,
+                                          fit: BoxFit.fitHeight,).blurred(
                                           blur: 4,
                                           overlay: Column(
                                             mainAxisAlignment: MainAxisAlignment.center,

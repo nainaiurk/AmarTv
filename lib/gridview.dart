@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers
+
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,7 +37,7 @@ class MyGrid extends StatefulWidget {
 
 class _MyGridState extends State<MyGrid> {
   final List<dynamic> channel;
-  Future<SharedPreferences> _prf = SharedPreferences.getInstance();
+  final Future<SharedPreferences> _prf = SharedPreferences.getInstance();
 
   _MyGridState(this.channel);
 
@@ -98,7 +100,7 @@ class _MyGridState extends State<MyGrid> {
             adUnitId: 'ca-app-pub-3940256099942544/6300978111',
             size: AdSize.largeBanner,
             request: const AdRequest(),
-            listener: AdListener(
+            listener: BannerAdListener(
               onAdClosed: (ad) => ad.dispose(),
               onAdFailedToLoad: (ad,e){
                 // print('bb$e');
@@ -255,11 +257,11 @@ class _MyGridState extends State<MyGrid> {
                       )
                       : Container(
                           height: height * 0.08,
-                          child: ImageBlur.asset(
+                          child: Image.asset(
                             "assets/icon/icon.png",
                             //scale: 1.0,
                             width: width * 0.25,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.cover,).blurred(
                             blur: 4,
                             overlay: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

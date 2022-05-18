@@ -103,32 +103,32 @@ class _RewardsState extends State<Rewards> {
   @override
   void initState() {
     // TODO: implement initState
-    rewardedAd = RewardedAd(
-      adUnitId: 'ca-app-pub-6179877812536274/9967551135',
-      request: const AdRequest(),
-      listener: AdListener(
-        onAdLoaded: (Ad ad) {
-          setState(() {
-            load = true;
-          });
-        },
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        onRewardedAdUserEarnedReward: (RewardedAd ad, RewardItem reward) {
-          _incrementCounter();
-          rewardedAd.dispose();
-          setState(() {
-            load=false;
-          });
-          rewardedAd.load();
-          print(reward.type);
-          print(reward.amount);
-        },
-      ),
-    );
-    rewardedAd.load();
+    // rewardedAd = RewardedAd(
+    //   adUnitId: 'ca-app-pub-6179877812536274/9967551135',
+    //   request: const AdRequest(),
+    //   listener: AdListener(
+    //     onAdLoaded: (Ad ad) {
+    //       setState(() {
+    //         load = true;
+    //       });
+    //     },
+    //     onAdFailedToLoad: (Ad ad, LoadAdError error) {
+    //       ad.dispose();
+    //       print('Ad failed to load: $error');
+    //     },
+    //     onRewardedAdUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+    //       _incrementCounter();
+    //       rewardedAd.dispose();
+    //       setState(() {
+    //         load=false;
+    //       });
+    //       rewardedAd.load();
+    //       print(reward.type);
+    //       print(reward.amount);
+    //     },
+    //   ),
+    // );
+    // rewardedAd.load();
     loadRewardStorePref();
     loadRewardFBPref();
     _loadCounter();
@@ -258,7 +258,7 @@ class _RewardsState extends State<Rewards> {
                     });
                     zeroRewardFBPref();
                   }
-                  print('$rewardFBRecieved');
+                  // print('$rewardFBRecieved');
                 },
                 child: Container(
                   height: 100,

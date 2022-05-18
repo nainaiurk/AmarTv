@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, avoid_unnecessary_containers
+// ignore_for_file: prefer_final_fields, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, unused_catch_clause, sized_box_for_whitespace
 import 'dart:async';
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -48,7 +48,7 @@ Future<void> main() async {
   runApp(ChangeNotifierProvider<ThemeNotifier>(
 
     create: (_) => ThemeNotifier(),
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
       title: 'Amr TV',
       theme: themeNotifier.getTheme(),
       // navigatorObservers: [locator<AnalyticsService>().getAnalyticsObserver()],
-      home: MyHomePage(
+      home: const MyHomePage(
           title: 'Amr TV',
           // analytics: locator<AnalyticsService>().getAnalytics(),
           // observer: locator<AnalyticsService>().getAnalyticsObserver()),
@@ -73,8 +73,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title})
-      : super(key: key);
+  const MyHomePage({Key key, this.title}): super(key: key);
   final String title;
 
 
@@ -138,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getUser() {
     DatabaseHelper.instance.retrieveUser().then((value) {
       if (value != null) {
-        print(value);
+        // print(value);
         setState(() {
           user = value;
         });
@@ -328,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter = (preferences.getInt('counter') ?? 0) + 1;
       preferences.setInt('counter', _counter);
     });
-    print("in counter"+_counter.toString());
+    // print("in counter"+_counter.toString());
   }
 
   List<ModelChannel> sortChannel(List<ModelChannel> channel) {
@@ -353,7 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter = (prefs.getInt("counter") ?? 0);
     });
-    print("load counter"+_counter.toString());
+    // print("load counter"+_counter.toString());
     return _counter;
   }
 
@@ -438,7 +437,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List<ModelFeature>> getFeaturedData(http.Client client) async {
     final r = await http
-        .get('https://amrtvbangla.bmssystems.org/featuredchannelsapi.php');
+        .get(Uri.parse('https://amrtvbangla.bmssystems.org/featuredchannelsapi.php'));
     if (r.statusCode == 200) {
       setState(() {
         allFeatures = parseFeaturedChannel(r.body);
@@ -480,7 +479,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //  print('${channelController.allChannelGet.value.length}');
 
     final response = await http
-        .get('https://amrtvbangla.bmssystems.org/fetch_jason_all_channels.php');
+        .get(Uri.parse('https://amrtvbangla.bmssystems.org/fetch_jason_all_channels.php'));
     // print(response.statusCode);
     if (response.statusCode == 200) {
       setState(() {
@@ -592,8 +591,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
@@ -654,7 +653,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //checkVersions(version, appVersion);
     //print(version);
 
-    Future.delayed(Duration(seconds: 3, milliseconds: 400), () {
+    Future.delayed(const Duration(seconds: 3, milliseconds: 400), () {
       setState(() {
         splash = true;
       });
@@ -678,6 +677,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
+  @override
   void dispose() {
     _controller.dispose();
     _connectivitySubscription.cancel();

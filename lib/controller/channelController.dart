@@ -1,9 +1,9 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_function_literals_in_foreach_calls, file_names, invalid_use_of_protected_member
 
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:live_tv/model/feature_model.dart';
+// import 'package:live_tv/model/feature_model.dart';
 import 'package:live_tv/model/modelChannel.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,7 +37,7 @@ class ChannelController extends GetxController {
 
   Future<List<ModelChannel>> getData() async {
     final response = await http
-        .get('https://amrtvbangla.bmssystems.org/fetch_jason_all_channels.php');
+        .get(Uri.parse('https://amrtvbangla.bmssystems.org/fetch_jason_all_channels.php'));
     // print(response.statusCode);
     if (response.statusCode == 200) {
       // print('getx res');
@@ -57,7 +57,7 @@ class ChannelController extends GetxController {
         }
       });
 
-      print('getx bef');
+      // print('getx bef');
 
       channelType.forEach((countryCode) {
         List<ModelChannel> t = [];
@@ -73,8 +73,8 @@ class ChannelController extends GetxController {
 
       // allChannelGet.value = allChannelList;
 
-      print('getx');
-      print(allChannelGet.length);
+      // print('getx');
+      // print(allChannelGet.length);
 
       return parseChannel(response.body);
       // print('total country ${countryList.length}');
@@ -110,7 +110,6 @@ class ChannelController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     getData();
     super.onInit();
   }

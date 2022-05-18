@@ -2,22 +2,24 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:live_tv/theme_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AboutUs extends StatelessWidget {
+  const AboutUs({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHome(),
+      home: const MyHome(),
       theme: themeNotifier.getTheme(),
     );
   }
 }
 
 class MyHome extends StatefulWidget {
+  const MyHome({Key key}) : super(key: key);
   @override
   _MyHomeState createState() => _MyHomeState();
 }
@@ -48,14 +50,14 @@ class _MyHomeState extends State<MyHome> {
     super.initState();
   }
 
-  _launchURL(String toMailId, String subject, String body) async {
-    var url = 'mailto:$toMailId?subject=$subject&body=$body';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // _launchURL(String toMailId, String subject, String body) async {
+  //   var url = 'mailto:$toMailId?subject=$subject&body=$body';
+  //   if (await canLaunchUrl(Uri.parse(url))) {
+  //     await launchUrl(Uri.parse(url));
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   // final Email email = Email(
   //   body: 'Email body',
@@ -72,14 +74,14 @@ class _MyHomeState extends State<MyHome> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           //color: Colors.black,
           onPressed: () {
             //Navigator.pop(context); //returns black screen
             Navigator.of(context, rootNavigator: true).pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "About",
           style: TextStyle(
               //color: Colors.black
@@ -184,7 +186,7 @@ class _MyHomeState extends State<MyHome> {
             //     ),
             //   ],
             // ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             // Row(
@@ -252,12 +254,12 @@ class _MyHomeState extends State<MyHome> {
             //     ),
             //   ],
             // ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Container(
                 child: Text(s),
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             ),
           ],
         ),

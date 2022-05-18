@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls, sized_box_for_whitespace, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:live_tv/model/modelChannel.dart';
@@ -11,18 +13,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'helper/database_helper_favorite.dart';
 
 class FavoriteGrid extends StatelessWidget {
+  const FavoriteGrid({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: themeNotifier.getTheme(),
-      home: MyHome(),
+      home: const MyHome(),
     );
   }
 }
 
 class MyHome extends StatefulWidget {
+  const MyHome({Key key}) : super(key: key);
+
   @override
   _MyHomeState createState() => _MyHomeState();
 }
@@ -31,12 +37,12 @@ class _MyHomeState extends State<MyHome> {
   List<ModelChannel> channel = [];
   List<Favorite> fChannel = [];
   bool hasData = false;
-  Future<SharedPreferences> _prf = SharedPreferences.getInstance();
+  final Future<SharedPreferences> _prf = SharedPreferences.getInstance();
 
   List<ModelChannel> converts(List<Favorite> s) {
     List<ModelChannel> temp = [];
     s.forEach((element) {
-      ModelChannel modelTemp = new ModelChannel(
+      ModelChannel modelTemp = ModelChannel(
           the0: element.channelId,
           the1: element.channelName,
           the2: element.channelType,
@@ -78,7 +84,6 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getList();
   }
@@ -91,12 +96,12 @@ class _MyHomeState extends State<MyHome> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
           //backgroundColor: Colors.white,
-          title: Text(
+          title: const Text(
             "Favorite Channels",
             //style: TextStyle(color: Colors.black),
           ),
           leading: IconButton(
-            icon: Icon(Icons.chevron_left),
+            icon: const Icon(Icons.chevron_left),
             //color: Colors.black,
             onPressed: () {
               //Navigator.pop(context);
@@ -110,7 +115,7 @@ class _MyHomeState extends State<MyHome> {
       body: (hasData == true)
           ? Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 GridView.count(
@@ -131,11 +136,11 @@ class _MyHomeState extends State<MyHome> {
                             behavior: SnackBarBehavior.floating,
                             //width: MediaQuery.of(context).size.width*0.5,
                             elevation: 20.0,
-                            content: Text(
+                            content: const Text(
                               "The channel is not live now, try again later",
                               textAlign: TextAlign.center,
                             ),
-                            duration: Duration(seconds: 5),
+                            duration: const Duration(seconds: 5),
                           ));
                         }else{
                           if (i >= 1) {
@@ -143,7 +148,7 @@ class _MyHomeState extends State<MyHome> {
                                 context,
                                 MaterialPageRoute(
                                     settings:
-                                    RouteSettings(name: 'youtube player'),
+                                    const RouteSettings(name: 'youtube player'),
                                     builder: (context) => LiveTvPlayer(
                                       channel: channel[index],
                                     ))).whenComplete(() {
@@ -156,7 +161,7 @@ class _MyHomeState extends State<MyHome> {
                                 return AlertDialog(
                                   backgroundColor: Colors.blueGrey[800],
                                   elevation: 24.0,
-                                  title: Text(
+                                  title: const Text(
                                     "You don't have enough coins to watch TV",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -179,7 +184,7 @@ class _MyHomeState extends State<MyHome> {
                                                 border: Border.all(color: Colors.white)
                                             ),
                                             child: TextButton(
-                                              child: Text(
+                                              child: const Text(
                                                 "Cancel",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -207,7 +212,7 @@ class _MyHomeState extends State<MyHome> {
                                             ),
                                             //width: width*0.25,
                                             child: TextButton(
-                                              child: Text(
+                                              child: const Text(
                                                 "Get Free Coin",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -220,7 +225,7 @@ class _MyHomeState extends State<MyHome> {
                                                     context,
                                                     MaterialPageRoute(
                                                         settings:
-                                                        RouteSettings(name: "Reward"),
+                                                        const RouteSettings(name: "Reward"),
                                                         builder: (_) => Rewards()));
                                               },
                                             ),
@@ -241,11 +246,11 @@ class _MyHomeState extends State<MyHome> {
                           child: FadeInImage.assetNetwork(
                             placeholder: 'assets/image/placeHolder.png',
                             image: channel[index].channelimage,
-                            fadeInDuration: Duration(seconds: 5),
+                            fadeInDuration: const Duration(seconds: 5),
                             fadeInCurve: Curves.bounceIn,
                             fit: BoxFit.cover,
                           ),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.rectangle,
                             //  borderRadius: BorderRadius.all(Radius.circular(12)),
                             // image: DecorationImage(
@@ -275,7 +280,7 @@ class _MyHomeState extends State<MyHome> {
                 ),
               ],
             )
-          : Center(
+          : const Center(
               child: Text("You haven't added any favorites yet!"),
             ),
     );

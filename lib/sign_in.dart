@@ -89,7 +89,7 @@ class _LogInState extends State<LogIn> {
         .signInWithCredential(credential))
         .user;
 
-    print(user.displayName);
+    // print(user.displayName);
     setLoggedIn();
     ModelUser.User temp=ModelUser.User(id: user.uid, name: user.displayName, email: user.email, image: user.photoURL);
     DatabaseHelper.instance.insert({
@@ -167,7 +167,7 @@ class _LogInState extends State<LogIn> {
 
   Future<UserSignIn> signInUser(String username, String password) async {
     final response = await http.post(
-      'https://amrtvbangla.bmssystems.org/login.php',
+      Uri.parse('https://amrtvbangla.bmssystems.org/login.php'),
       // headers: <String, String>{
       //   'Content-Type': 'application/json; charset=UTF-8',
       // },
@@ -182,7 +182,7 @@ class _LogInState extends State<LogIn> {
       );
     }
     s = jsonDecode(response.body);
-    print(s);
+    // print(s);
     return UserSignIn.fromJson(jsonDecode(response.body));
   }
 
@@ -202,22 +202,22 @@ class _LogInState extends State<LogIn> {
 
       // Send access token to server for validation and auth
         final FacebookAccessToken accessToken = res.accessToken;
-        print('Access token: ${accessToken.token}');
+        // print('Access token: ${accessToken.token}');
 
         // Get profile data
         final profile = await fb.getUserProfile();
-        print('Hello, ${profile.name}! You ID: ${profile.userId}');
+        // print('Hello, ${profile.name}! You ID: ${profile.userId}');
 
 
         // Get user profile image url
         final imageUrl = await fb.getProfileImageUrl(width: 100);
-        print('Your profile image: $imageUrl');
+        // print('Your profile image: $imageUrl');
 
         // Get email (since we request email permission)
         final email = await fb.getUserEmail();
         // But user can decline permission
         if (email != null)
-          print('And your email is $email');
+          // print('And your email is $email');
         setLoggedIn();
         ModelUser.User temp=ModelUser.User(id: profile.userId, name: profile.name, email: email!=null?email:"", image: imageUrl);
         DatabaseHelper.instance.insert({
@@ -250,7 +250,7 @@ class _LogInState extends State<LogIn> {
         break;
       case FacebookLoginStatus.error:
       // Log in failed
-        print('Error while log in: ${res.error}');
+        // print('Error while log in: ${res.error}');
         break;
     }
   }
@@ -421,11 +421,11 @@ class _LogInState extends State<LogIn> {
           ),
           ElevatedButton(
             onPressed: () {
-              print(_userName);
-              print(_password);
+              // print(_userName);
+              // print(_password);
               signInUser(_userName.text, _password.text);
               // to be added
-              print(s);
+              // print(s);
               // if(s!=null){
               //   if(s.contains('Login')){
               //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

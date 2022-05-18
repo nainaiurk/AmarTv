@@ -1,4 +1,6 @@
 
+// ignore_for_file: file_names, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:live_tv/model/modelChannel.dart';
 import 'package:live_tv/rewards.dart';
@@ -35,7 +37,7 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   final List<ModelChannel> channel;
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   _MyHomeState(this.channel);
 
@@ -161,7 +163,7 @@ class _MyHomeState extends State<MyHome> {
                     height: 16,
                     child: Text(
                       channel[index].channelname,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                         color: Colors.white,

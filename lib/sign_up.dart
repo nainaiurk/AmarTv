@@ -60,7 +60,7 @@ class _RegistrationState extends State<Registration> {
   Future<void> createUser(
       String fullName, String email, String userName, String password) async {
     final response = await http.post(
-      'https://amrtvbangla.bmssystems.org/signup.php',
+      Uri.parse('https://amrtvbangla.bmssystems.org/signup.php'),
       // headers: <String, String>{
       //   'Content-Type': 'application/json; charset=UTF-8',
       // },
@@ -651,7 +651,7 @@ class _RegistrationState extends State<Registration> {
         break;
       case FacebookLoginStatus.error:
       // Log in failed
-        print('Error while log in: ${res.error}');
+        // print('Error while log in: ${res.error}');
         break;
     }
   }

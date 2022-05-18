@@ -3,6 +3,8 @@ import 'package:live_tv/theme_manager.dart';
 import 'package:provider/provider.dart';
 
 class PrivacyPolicy extends StatelessWidget {
+  const PrivacyPolicy({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);

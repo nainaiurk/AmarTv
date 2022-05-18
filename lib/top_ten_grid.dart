@@ -23,7 +23,7 @@ class TopGridPage extends StatelessWidget {
 
   Future<List<ModelChannel>> getData(http.Client client) async {
     final response = await http
-        .get('https://amrtvbangla.bmssystems.org/toptenchannels.php');
+        .get(Uri.parse('https://amrtvbangla.bmssystems.org/toptenchannels.php'));
     if (response.statusCode == 200) {
 
       return parseChannel(response.body);
@@ -78,7 +78,7 @@ class TopGridPage extends StatelessWidget {
                               behavior: SnackBarBehavior.floating,
                               //width: MediaQuery.of(context).size.width*0.5,
                               elevation: 20.0,
-                              content: Text(
+                              content: const Text(
                                 "The channel is not live now, try again later",
                                 textAlign: TextAlign.center,
                               ),
@@ -107,7 +107,7 @@ class TopGridPage extends StatelessWidget {
                                     800],
                                     elevation:
                                     24.0,
-                                    title: Text(
+                                    title: const Text(
                                       "You don't have enough coins to watch TV",
                                       textAlign:
                                       TextAlign
@@ -136,7 +136,7 @@ class TopGridPage extends StatelessWidget {
                                                   border: Border.all(color: Colors.white)
                                               ),
                                               child: TextButton(
-                                                child: Text(
+                                                child: const Text(
                                                   "Cancel",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class TopGridPage extends StatelessWidget {
                                               ),
                                               //width: width*0.25,
                                               child: TextButton(
-                                                child: Text(
+                                                child: const Text(
                                                   "Get Free Coin",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,

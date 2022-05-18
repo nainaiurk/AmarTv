@@ -33,13 +33,13 @@ class Search extends StatelessWidget {
           )),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 40,
             width: double.infinity,
           ),
           SearchChannels(
               string: string, channel: filteredChannel, channel2: allChannel),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           (filteredChannel.isNotEmpty)
@@ -62,7 +62,7 @@ class Search extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       settings:
-                                          RouteSettings(name: 'youtube player'),
+                                          const RouteSettings(name: 'youtube player'),
                                       builder: (context) => LiveTvPlayer(
                                             channel: filteredChannel[index],
                                           ))).whenComplete(() {
@@ -178,11 +178,11 @@ class Search extends StatelessWidget {
                                 : Container(
                                     height: MediaQuery.of(context).size.height *
                                         0.08,
-                                    child: ImageBlur.asset(
+                                    child: Image.asset(
                                       "assets/icon/icon.png",
                                       //scale: 1.0,
                                       width: MediaQuery.of(context).size.width * 0.3,
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.cover,).blurred(
                                       blur: 4,
                                       overlay: Column(
                                         mainAxisAlignment:
