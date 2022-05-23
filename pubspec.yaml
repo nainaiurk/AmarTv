@@ -99,6 +99,8 @@ flutter:
     - assets/icon/icon.png
     - assets/image/splash.gif
     - assets/image/spash1.gif
+    - assets/icon/mess.png
+    - assets/icon/mess3.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

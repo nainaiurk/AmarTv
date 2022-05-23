@@ -261,8 +261,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var pageLink = "https://m.me/100453655696187";
 
-  void _launchURL() async => await canLaunchUrl(Uri.parse(pageLink))
-      ? await launchUrl(Uri.parse(pageLink))
+  void _launchURL() async => await canLaunch(pageLink)
+      ? await launch(pageLink)
       : throw 'Could not launchs $pageLink';
 
   final ChannelController channelController = Get.put(ChannelController());
@@ -378,17 +378,22 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ),                    
                     IconButton(
                       alignment: Alignment.center,
                       splashRadius: 20,
                       splashColor: Colors.blue,
                       onPressed: _launchURL,
-                      icon: const Icon(
-                        Icons.message_outlined,
+                      icon: Image.asset(
+                        'assets/icon/mess3.png',
                         color: Colors.red,
-                        size: 25,
-                      ),
+                        height: 25,
+                      )
+                      // const Icon(
+                      //   Icons.message_outlined,
+                      //   color: Colors.red,
+                      //   size: 25,
+                      // ),
                     ),
                     IconButton(
                       alignment: Alignment.center,

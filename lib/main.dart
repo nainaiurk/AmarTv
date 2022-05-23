@@ -1003,9 +1003,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         'assets/icon/icon.png',
                         height: 40,
                       ),
-                      Text(
-                          widget.title,
-                        ),
+                      Text(widget.title,),
                     ],
                   )
                 : Container(
