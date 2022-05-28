@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:keframe/keframe.dart';
 import 'package:live_tv/model/modelChannel.dart';
+import 'package:live_tv/theme_manager.dart';
 import 'package:live_tv/youtubePlayer.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Scroll extends StatefulWidget {
@@ -154,8 +156,8 @@ class _ScrollState extends State<Scroll> {
     var width = MediaQuery.of(context).size.width;
     // int adCount = (sortedChannel.length/3).toInt();
     return (channel.isEmpty)
-        ? const SizedBox(height: 0.1,)
-        : Container(
+      ? const SizedBox(height: 0.1,)
+      : Container(
             height: height * 0.125,
             child: SizeCacheWidget(
               child: ListView.builder(
@@ -237,16 +239,17 @@ class _ScrollState extends State<Scroll> {
                           if (sortedChannel[index].channelurl == null) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(SnackBar(
-                              backgroundColor: Colors.purpleAccent[800],
-                              behavior: SnackBarBehavior.floating,
-                              //width: MediaQuery.of(context).size.width*0.5,
-                              elevation: 20.0,
-                              content: const Text(
-                                "The channel is not live now, try again later",
-                                textAlign: TextAlign.center,
-                              ),
-                              duration: const Duration(seconds: 5),
-                            ));
+                                backgroundColor: Colors.purpleAccent[800],
+                                behavior: SnackBarBehavior.floating,
+                                //width: MediaQuery.of(context).size.width*0.5,
+                                elevation: 20.0,
+                                content: const Text(
+                                  "The channel is not live now, try again later",
+                                  textAlign: TextAlign.center,
+                                ),
+                                duration: const Duration(seconds: 5),
+                              )
+                            );
                           } 
                           else {
                             //Navigator.push( context, MaterialPageRoute( builder: (context) => SecondPage()), ).then((value) => setState(() {}));
@@ -271,7 +274,7 @@ class _ScrollState extends State<Scroll> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(
-                              color: Colors.white38,
+                              color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
                               // width: 8
                             ),
                             color: Colors.white12
@@ -293,7 +296,7 @@ class _ScrollState extends State<Scroll> {
                                     fit: BoxFit.fitHeight,
                                     fadeInDuration:const Duration(seconds: 5),
                                     fadeInCurve: Curves.bounceIn,
-                                  )                    
+                                  )
                                 : Padding(
                                     padding: const EdgeInsets.only(top: 3),
                                     child: Image.asset(
@@ -344,7 +347,7 @@ class _ScrollState extends State<Scroll> {
                                 style: TextStyle(
                                     //fontWeight: FontWeight.bold,
                                     fontSize: height * 0.0135,
-                                    color: Colors.white60
+                                    // color: Colors.white60
                                   ),
                                 textAlign: TextAlign.center,
                               ),
@@ -353,43 +356,43 @@ class _ScrollState extends State<Scroll> {
                         ),
                       )
                     : Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.white38,
-                          // width: 8
-                        ),
-                        color: Colors.white12
-                      ),
-                      margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-                      height: height * 0.12,
-                      width: width * 0.28,
-                      alignment: Alignment.topCenter,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 10,),
-                          Container(
-                            height: height*0.065,
-                            width: width * 0.25,
-                            child: AdWidget(ad: ads['myBanner$index'],)
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
+                            // width: 8
                           ),
-                          const SizedBox(height: 5,),
-                          Text(
-                              'Amr TV',
-                              style: TextStyle(
-                                  //fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.0135,
-                                  color: Colors.white60
-                                ),
-                              textAlign: TextAlign.center,
+                          color: Colors.white12
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+                        height: height * 0.12,
+                        width: width * 0.28,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 10,),
+                            Container(
+                              height: height*0.065,
+                              width: width * 0.25,
+                              child: AdWidget(ad: ads['myBanner$index'],)
                             ),
-                        ],
-                      ),
-                      // margin: EdgeInsets.symmetric(
-                      // vertical: 00.0, horizontal: 3.0),
-                      // padding: const EdgeInsets.only(bottom: 50),
-                      // clipBehavior: Clip.antiAlias,
-                    );
+                            const SizedBox(height: 5,),
+                            Text(
+                                'Amr TV',
+                                style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.0135,
+                                    // color: Colors.white60
+                                  ),
+                                textAlign: TextAlign.center,
+                              ),
+                          ],
+                        ),
+                        // margin: EdgeInsets.symmetric(
+                        // vertical: 00.0, horizontal: 3.0),
+                        // padding: const EdgeInsets.only(bottom: 50),
+                        // clipBehavior: Clip.antiAlias,
+                      );
                 },
                 // separatorBuilder: (BuildContext context, int index) {
                 //   return (index % 3 == 1)

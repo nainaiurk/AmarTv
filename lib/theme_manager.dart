@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:live_tv/storage_manager.dart';
-
 class ThemeNotifier with ChangeNotifier {
   final darkTheme = ThemeData(
       dividerTheme: const DividerThemeData(
@@ -10,7 +9,7 @@ class ThemeNotifier with ChangeNotifier {
       ),
       //primarySwatch: Colors.grey,
       canvasColor: Colors.black,
-      hintColor: Colors.grey,
+      hintColor: Colors.yellow,
       accentColorBrightness: Brightness.light,//Used to determine the color of text and icons placed on top of the accent color
       //colorScheme: ColorScheme(),
       primaryColor: Colors.black,//The background color for major parts of the app (toolbars, tab bars, etc)
@@ -22,7 +21,9 @@ class ThemeNotifier with ChangeNotifier {
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black,
         titleTextStyle: TextStyle(color: Colors.white),
-      ));
+      ),
+      cardColor: Colors.white38// container border color
+    );
 
   final lightTheme = ThemeData(
       primarySwatch: Colors.grey,
@@ -37,9 +38,12 @@ class ThemeNotifier with ChangeNotifier {
       accentIconTheme: const IconThemeData(color: Colors.white),
       dividerColor: Colors.white,
       appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          titleTextStyle: TextStyle(color: Colors.black),
-          iconTheme: IconThemeData(color: Colors.black)));
+        backgroundColor: Colors.white,
+        titleTextStyle: TextStyle(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black)
+      ),
+      cardColor: Colors.black
+    );
 
   ThemeData _themeData;
 
