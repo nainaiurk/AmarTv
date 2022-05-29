@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
+import 'package:keframe/keframe.dart';
 import 'package:live_tv/api_service/apis.dart';
 import 'package:live_tv/category.dart';
 import 'package:live_tv/controller/channelController.dart';
@@ -95,6 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _current = 0; //for image carousel counter
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
   bool isSearching = false;
   List<List<ModelChannel>> countryList = [];
   String appVersion = "";
@@ -643,13 +646,30 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     userLoginStatus();
-    //getDialog();
     checkVersion();
     getUser();
+    //getDialog();
     //getAppVersion();
     //checkVersions(version, appVersion);
     //print(version);
-
+    _bannerAd = BannerAd(
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      request: const AdRequest(),
+      size: const AdSize(height: 400,width: 380),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+    _bannerAd.load();
     Future.delayed(const Duration(seconds: 3, milliseconds: 400), () {
       setState(() {
         splash = true;
@@ -657,21 +677,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     initConnectivity();
     _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     _loadCounter();
     _incrementCounter();
-
-    //print("counter "+_counter.toString());
-    
     getData(http.Client());
     getFeaturedData(http.Client());
     load().then((value) {
       counter = value;
     });
-    // DatabaseHelper.instance.retrieveFavorite();
-
     _controller = TextEditingController();
-
   }
 
   @override
@@ -1202,20 +1216,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   physics: const NeverScrollableScrollPhysics(),
                   addAutomaticKeepAlives: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: height*0.2,
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CountryName(countryList[index]),
-                          Scroll(
-                            allChannels: allChannels,
-                            channel: countryList[index],
-                          ),
-                          const SizedBox(height: 10,),
-                        ],
-                      ),
-                    );
+                    return (index ==1)
+                    ? Container(
+                        child: _isBannerAdReady?
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              width: _bannerAd.size.width.toDouble(),
+                              height: _bannerAd.size.height.toDouble(),
+                              child: AdWidget(ad: _bannerAd),
+                            ),
+                          )
+                          :const SizedBox(height: 20,)
+                      )
+                    : Container(
+                        height: height*0.2,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CountryName(countryList[index]),
+                            Scroll(
+                              allChannels: allChannels,
+                              channel: countryList[index],
+                            ),
+                          ],
+                        ),
+                      );
                   },
                 ),
                 const SizedBox(height: 72,),

@@ -171,7 +171,7 @@ class _ScrollState extends State<Scroll> {
             itemBuilder: (BuildContext context, int index) {
               ads['myBanner$index'] = BannerAd(
                 adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-                size: AdSize.largeBanner,
+                size: AdSize.mediumRectangle,
                 request: const AdRequest(),
                 listener: BannerAdListener(
                   onAdClosed: (ad) => ad.dispose(),
