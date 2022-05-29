@@ -51,25 +51,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<List<Favorite>> f;
-
-  int _counter = 0;
-
+  // int _counter = 0;
   bool icon = false;
-
   ModelChannel channel;
-
-  //final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   YoutubePlayerController _controller;
-
   PlayerState _playerState;
-
   YoutubeMetaData _videoMetaData;
-
-  //double _volume = 100;
-  //bool _muted = false;
   bool _isPlayerReady = false;
   bool delay = false;
-
+  String channelId='';
+  //double _volume = 100;
+  //bool _muted = false;
+  //final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   // final List<String> _ids = [
   //   'nPt8bK2gbaU',
   //   'gQDByCdjUXw',
@@ -81,7 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
   //   '7QUtEmBT_-w',
   //   '34_PXCzGw1M',
   // ];
-
   // _loadCounter() async {
   //   final SharedPreferences prefs = await _prefs;
   //   setState(() {
@@ -93,15 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
   //   }
   //   // print('lol  $_counter');
   // }
-
-  setToZero() async {
-    SharedPreferences preferences = await _prefs;
-    setState(() {
-      _counter = 1;
-      preferences.setInt('counter', _counter);
-    });
-  }
-
   // _incrementCounter() async {
   //   SharedPreferences preferences = await _prefs;
   //   setState(() {
@@ -109,13 +92,82 @@ class _MyHomePageState extends State<MyHomePage> {
   //     preferences.setInt('counter', _counter);
   //   });
   // }
-
   // Future<int> check() async {
-  //  a= await DatabaseHelper.instance.checkChannel(channel.channelid);
-  //  return a;
+  // InterstitialAd interstitialAd;
+  // bool loadAd = true;
+//   void watchAd() async {
+//     if (loadAd == true) {
+//       await interstitialAd.show();
+//       // print('WATCHADs');
+//     } else {
+//       //print('wait');
+//       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//         backgroundColor: Colors.yellow[800],
+// //        behavior: SnackBarBehavior.floating,
+//         //width: MediaQuery.of(context).size.width*0.5,
+//         //elevation: 20.0,
+//         content: const Text(
+//           "Please try again after some time!",
+//           textAlign: TextAlign.center,
+//         ),
+//         duration: const Duration(seconds: 5),
+//       ));
+//     }
+//   }
+  // void initiateAd() {
+  //   // print('init');
+  //   interstitialAd = InterstitialAd(
+  //     adUnitId: 'ca-app-pub-3940256099942544/8691691433',
+  //     request: const AdRequest(),
+  //     listener: AdListener(
+  //       onAdLoaded: (Ad ad) {
+  //         setState(() {
+  //           loadAd = true;
+  //         });
+  //         interstitialAd.show();
+  //       },
+  //       onAdFailedToLoad: (Ad ad, LoadAdError error) {
+  //         ad.dispose();
+  //         // print('Ad failed to load: $error');
+  //       },
+  //       onRewardedAdUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+  //         ad.dispose();
+  //         ad.load();
+  //       },
+  //     ),
+  //   );
+  //   // print('initss');
+  // void decrement() async {
+  //   SharedPreferences preference = await _prefs;
+  //   int reward = (preference.getInt('Rcounter') ?? 10) - 1;
+  //   if (reward < 1) {
+  //     preference.setInt('Rcounter', 0);
+  //   } else {
+  //     preference.setInt('Rcounter', reward);
+  //   }
+  //   print('hihih');
+  //   print(reward);
+  // }
+// setToZero() async {
+  //   SharedPreferences preferences = await _prefs;
+  //   setState(() {
+  //     _counter = 1;
+  //     preferences.setInt('counter', _counter);
+  //   });
   // }
 
-  String channelId='';
+@override
+  void initState() {
+    super.initState();
+    loadImage();
+    channelController.getChannels(widget.channel);
+    _videoMetaData = const YoutubeMetaData();
+    _playerState = PlayerState.unknown;
+    //  a= await DatabaseHelper.instance.checkChannel(channel.channelid);
+    //  return a;
+    // }
+    // print("LESGH F${channelController.allTVChannelCategory.length}");
+  }
 
   loadImage() {
     // print('load');
@@ -142,11 +194,9 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         }
       });
-
       setState(() {
         channelId=channel.channelurl;
       });
-
       _controller = YoutubePlayerController(
         initialVideoId: channelId,
         flags: const YoutubePlayerFlags(
@@ -162,62 +212,12 @@ class _MyHomePageState extends State<MyHomePage> {
           forceHD: false,
           // enableCaption: false,
         ),
-      );
+      )..addListener(() {listener();});
       // _playerState = PlayerState.unknown;
       //loadImage();
       removeImage();
     });
   }
-
-  // InterstitialAd interstitialAd;
-  // bool loadAd = true;
-
-//   void watchAd() async {
-//     if (loadAd == true) {
-//       await interstitialAd.show();
-//       // print('WATCHADs');
-//     } else {
-//       //print('wait');
-//       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//         backgroundColor: Colors.yellow[800],
-// //        behavior: SnackBarBehavior.floating,
-//         //width: MediaQuery.of(context).size.width*0.5,
-//         //elevation: 20.0,
-//         content: const Text(
-//           "Please try again after some time!",
-//           textAlign: TextAlign.center,
-//         ),
-//         duration: const Duration(seconds: 5),
-//       ));
-//     }
-//   }
-
-  // void initiateAd() {
-  //   // print('init');
-  //   interstitialAd = InterstitialAd(
-  //     adUnitId: 'ca-app-pub-3940256099942544/8691691433',
-  //     request: const AdRequest(),
-  //     listener: AdListener(
-  //       onAdLoaded: (Ad ad) {
-  //         setState(() {
-  //           loadAd = true;
-  //         });
-  //         interstitialAd.show();
-  //       },
-  //       onAdFailedToLoad: (Ad ad, LoadAdError error) {
-  //         ad.dispose();
-  //         // print('Ad failed to load: $error');
-  //       },
-  //       onRewardedAdUserEarnedReward: (RewardedAd ad, RewardItem reward) {
-  //         ad.dispose();
-  //         ad.load();
-  //       },
-  //     ),
-  //   );
-
-  //   // print('initss');
-  //   interstitialAd.load();
-  // }
 
   void listener() {
     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
@@ -227,18 +227,6 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
   }
-
-  // void decrement() async {
-  //   SharedPreferences preference = await _prefs;
-  //   int reward = (preference.getInt('Rcounter') ?? 10) - 1;
-  //   if (reward < 1) {
-  //     preference.setInt('Rcounter', 0);
-  //   } else {
-  //     preference.setInt('Rcounter', reward);
-  //   }
-  //   print('hihih');
-  //   print(reward);
-  // }
 
   void removeImage() {
     setState(() {
@@ -267,18 +255,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final ChannelController channelController = Get.put(ChannelController());
 
-  @override
-  void initState() {
-    super.initState();
-    loadImage();
-    channelController.getChannels(widget.channel);
-    // print("LESGH F${channelController.allTVChannelCategory.length}");
-  }
 
   @override
   void dispose() {
-    // _controller.dispose();
-
+    _controller.dispose();
     super.dispose();
   }
 
@@ -300,21 +280,20 @@ class _MyHomePageState extends State<MyHomePage> {
         controller: _controller,
         //showVideoProgressIndicator: true,
         //progressIndicatorColor: Colors.blueAccent,
-        topActions: const <Widget>[
-          // const SizedBox(width: 8.0),
-          // Expanded(
-          //   child: Text(
-          //     _controller.metadata.title,
-          //     style: const TextStyle(
-          //       color: Colors.white,
-          //       fontSize: 18.0,
-          //     ),
-          //     overflow: TextOverflow.ellipsis,
-          //     maxLines: 1,
-          //   ),
-          // ),
-        ],
-
+        // topActions: const <Widget>[
+        //   // const SizedBox(width: 8.0),
+        //   // Expanded(
+        //   //   child: Text(
+        //   //     _controller.metadata.title,
+        //   //     style: const TextStyle(
+        //   //       color: Colors.white,
+        //   //       fontSize: 18.0,
+        //   //     ),
+        //   //     overflow: TextOverflow.ellipsis,
+        //   //     maxLines: 1,
+        //   //   ),
+        //   // ),
+        // ],
         onReady: () {
           setState(() {
             _isPlayerReady = true;
@@ -341,7 +320,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   //Navigator.pop(context);
                   Navigator.of(context, rootNavigator: true).pop(context);
                 },
-              )),
+              )
+            ),
           body: Column(
             // shrinkWrap: true,
             // physics: NeverScrollableScrollPhysics(),
@@ -522,7 +502,8 @@ class _MyHomePageState extends State<MyHomePage> {
               //     }),
               Container(
                 margin: const  EdgeInsets.only(left: 15,top: 15),
-                child: const Text('Watch More',style: TextStyle(fontSize: 20),),),
+                child: const Text('Watch More',style: TextStyle(fontSize: 20),),
+              ),
               Expanded(
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
@@ -573,7 +554,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                color: Colors.white38,
+                                color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
                                 // width: 8
                               ),
                               color: Colors.white12
@@ -607,11 +588,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: TextStyle(
                                       //fontWeight: FontWeight.bold,
                                       fontSize: height * 0.0135,
-                                      color: Colors.white60
+                                      // color: Colors.white60
                                     ),
                                   textAlign: TextAlign.center,
                                 ),
-
                                 // Image.network("${allTVChannelCategory[index].channelimage}",scale: 5,),
                                 // Text('lol'),
                               ],

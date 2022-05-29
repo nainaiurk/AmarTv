@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, file_names, prefer_final_fields, sized_box_for_whitespace
 
 import 'package:blur/blur.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -157,120 +158,112 @@ class _ScrollState extends State<Scroll> {
     // int adCount = (sortedChannel.length/3).toInt();
     return (channel.isEmpty)
       ? const SizedBox(height: 0.1,)
-      : Container(
-            height: height * 0.125,
-            child: SizeCacheWidget(
-              child: ListView.builder(
-                cacheExtent: 500,
-                itemExtent: width * 0.28,
-                // padding: const EdgeInsets.all(8),
-                // shrinkWrap: true,
-                // addAutomaticKeepAlives: true,
-                physics: const AlwaysScrollableScrollPhysics (),
-                scrollDirection: Axis.horizontal,
-                // itemCount: sortedChannel.length<7? sortedChannel.length : sortedChannel.length+adCount,
-                itemCount: sortedChannel.length,
-                itemBuilder: (BuildContext context, int index) {
-                  ads['myBanner$index'] = BannerAd(
-                    adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-                    size: AdSize.largeBanner,
-                    request: const AdRequest(),
-                    listener: BannerAdListener(
-                      onAdClosed: (ad) => ad.dispose(),
-                    ),
-                  );
-                  ads['myBanner$index'].load();
-                  // print('index $index');
-                  // int temp;
-                  // if (index % 3 == 2) {
-                  //   temp = index;
-                  //   // print('temp');
-                  //   // print(temp);
-                  // }
-                  return (index % 3 != 2)
-                    ? InkWell(
-                        onTap: () async {
-                          // if (index == 5) {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       settings:
-                          //           const RouteSettings(name: 'Grid View'),
-                          //       builder: (context) => GridPage(
-                          //         channel: sortedChannel,
-                          //       )
-                          //     )
-                          //   );
-                          // } 
-                          // else {
-                          //   if (sortedChannel[index].channelurl == null) {
-                          //     ScaffoldMessenger.of(context)
-                          //         .showSnackBar(SnackBar(
-                          //       backgroundColor: Colors.purpleAccent[800],
-                          //       behavior: SnackBarBehavior.floating,
-                          //       //width: MediaQuery.of(context).size.width*0.5,
-                          //       elevation: 20.0,
-                          //       content: const Text(
-                          //         "The channel is not live now, try again later",
-                          //         textAlign: TextAlign.center,
-                          //       ),
-                          //       duration: const Duration(seconds: 5),
-                          //     ));
-                          //   } 
-                          //   else {
-                          //     //Navigator.push( context, MaterialPageRoute( builder: (context) => SecondPage()), ).then((value) => setState(() {}));
-                          //     int i = await load();
-                          //     print('befores ${channel.length}');
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           settings: const RouteSettings(
-                          //               name: 'youtube player'),
-                          //           builder: (context) => LiveTvPlayer(
-                          //                 channel: sortedChannel[index],
-                          //               )),
-                          //     ).whenComplete(() {
-                          //       SystemChrome.setPreferredOrientations(
-                          //           [DeviceOrientation.portraitUp]);
-                          //     });
-                          //     _sendChannelInfo(sortedChannel[index]);
-                          //   }
-                          // }
-                          if (sortedChannel[index].channelurl == null) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(
-                                backgroundColor: Colors.purpleAccent[800],
-                                behavior: SnackBarBehavior.floating,
-                                //width: MediaQuery.of(context).size.width*0.5,
-                                elevation: 20.0,
-                                content: const Text(
-                                  "The channel is not live now, try again later",
-                                  textAlign: TextAlign.center,
-                                ),
-                                duration: const Duration(seconds: 5),
-                              )
-                            );
-                          } 
-                          else {
-                            //Navigator.push( context, MaterialPageRoute( builder: (context) => SecondPage()), ).then((value) => setState(() {}));
-                            // int i = await load();
-                            // print('befores ${channel.length}');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  settings: const RouteSettings(
-                                      name: 'youtube player'),
-                                  builder: (context) => LiveTvPlayer(
-                                        channel: sortedChannel[index],
-                                      )),
-                            ).whenComplete(() {
-                              SystemChrome.setPreferredOrientations(
-                                  [DeviceOrientation.portraitUp]);
-                            });
-                            _sendChannelInfo(sortedChannel[index]);
-                          }
-                        },
-                        child: Container(
+      : Expanded(
+          child: ListView.builder(
+            // cacheExtent: 500,
+            itemExtent: width * 0.28,
+            shrinkWrap: true,
+            // addAutomaticKeepAlives: true,
+            physics: const AlwaysScrollableScrollPhysics (),
+            scrollDirection: Axis.horizontal,
+            // itemCount: sortedChannel.length<7? sortedChannel.length : sortedChannel.length+adCount,
+            itemCount: sortedChannel.length,
+            itemBuilder: (BuildContext context, int index) {
+              ads['myBanner$index'] = BannerAd(
+                adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+                size: AdSize.largeBanner,
+                request: const AdRequest(),
+                listener: BannerAdListener(
+                  onAdClosed: (ad) => ad.dispose(),
+                ),
+              );
+              ads['myBanner$index'].load();
+              return (index % 3 != 2)
+                ? InkWell(
+                    onTap: () async {
+                      // if (index == 5) {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       settings:
+                      //           const RouteSettings(name: 'Grid View'),
+                      //       builder: (context) => GridPage(
+                      //         channel: sortedChannel,
+                      //       )
+                      //     )
+                      //   );
+                      // } 
+                      // else {
+                      //   if (sortedChannel[index].channelurl == null) {
+                      //     ScaffoldMessenger.of(context)
+                      //         .showSnackBar(SnackBar(
+                      //       backgroundColor: Colors.purpleAccent[800],
+                      //       behavior: SnackBarBehavior.floating,
+                      //       //width: MediaQuery.of(context).size.width*0.5,
+                      //       elevation: 20.0,
+                      //       content: const Text(
+                      //         "The channel is not live now, try again later",
+                      //         textAlign: TextAlign.center,
+                      //       ),
+                      //       duration: const Duration(seconds: 5),
+                      //     ));
+                      //   } 
+                      //   else {
+                      //     //Navigator.push( context, MaterialPageRoute( builder: (context) => SecondPage()), ).then((value) => setState(() {}));
+                      //     int i = await load();
+                      //     print('befores ${channel.length}');
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           settings: const RouteSettings(
+                      //               name: 'youtube player'),
+                      //           builder: (context) => LiveTvPlayer(
+                      //                 channel: sortedChannel[index],
+                      //               )),
+                      //     ).whenComplete(() {
+                      //       SystemChrome.setPreferredOrientations(
+                      //           [DeviceOrientation.portraitUp]);
+                      //     });
+                      //     _sendChannelInfo(sortedChannel[index]);
+                      //   }
+                      // }
+                      if (sortedChannel[index].channelurl == null) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(
+                            backgroundColor: Colors.purpleAccent[800],
+                            behavior: SnackBarBehavior.floating,
+                            //width: MediaQuery.of(context).size.width*0.5,
+                            elevation: 20.0,
+                            content: const Text(
+                              "The channel is not live now, try again later",
+                              textAlign: TextAlign.center,
+                            ),
+                            duration: const Duration(seconds: 5),
+                          )
+                        );
+                      } 
+                      else {
+                        //Navigator.push( context, MaterialPageRoute( builder: (context) => SecondPage()), ).then((value) => setState(() {}));
+                        // int i = await load();
+                        // print('befores ${channel.length}');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              settings: const RouteSettings(
+                                  name: 'youtube player'),
+                              builder: (context) => LiveTvPlayer(
+                                    channel: sortedChannel[index],
+                                  )),
+                        ).whenComplete(() {
+                          SystemChrome.setPreferredOrientations(
+                              [DeviceOrientation.portraitUp]);
+                        });
+                        _sendChannelInfo(sortedChannel[index]);
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(
@@ -288,15 +281,23 @@ class _ScrollState extends State<Scroll> {
                             children: [
                               const SizedBox(height: 3,),
                               sortedChannel[index].channelurl !=null
-                                ? FadeInImage.assetNetwork(
-                                    placeholder:'assets/image/placeHolder.png',
-                                    image: sortedChannel[index].channelimage,
-                                    height: height*0.08,
-                                    width: width * 0.25,
-                                    fit: BoxFit.fitHeight,
-                                    fadeInDuration:const Duration(seconds: 5),
-                                    fadeInCurve: Curves.bounceIn,
-                                  )
+                                ? 
+                                CachedNetworkImage(
+                                  height: height*0.08,
+                                  width: width * 0.25,
+                                  fit: BoxFit.fitHeight,
+                                  imageUrl: sortedChannel[index].channelimage,
+                                  placeholder: (context, url) => const Image(image: AssetImage('assets/image/placeHolder.png')),
+                                )
+                                // FadeInImage.assetNetwork(
+                                //     placeholder:'assets/image/placeHolder.png',
+                                //     image: sortedChannel[index].channelimage,
+                                //     height: height*0.08,
+                                //     width: width * 0.25,
+                                //     fit: BoxFit.fitHeight,
+                                //     fadeInDuration:const Duration(seconds: 5),
+                                //     fadeInCurve: Curves.bounceIn,
+                                //   )
                                 : Padding(
                                     padding: const EdgeInsets.only(top: 3),
                                     child: Image.asset(
@@ -354,94 +355,99 @@ class _ScrollState extends State<Scroll> {
                             ]
                           ),
                         ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
-                            // width: 8
-                          ),
-                          color: Colors.white12
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-                        height: height * 0.12,
-                        width: width * 0.28,
-                        alignment: Alignment.topCenter,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 10,),
-                            Container(
-                              height: height*0.065,
-                              width: width * 0.25,
-                              child: AdWidget(ad: ads['myBanner$index'],)
+                      ],
+                    ),
+                  )
+                : Column(
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
+                              // width: 8
                             ),
-                            const SizedBox(height: 5,),
-                            Text(
-                                'Amr TV',
-                                style: TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    fontSize: height * 0.0135,
-                                    // color: Colors.white60
-                                  ),
-                                textAlign: TextAlign.center,
+                            color: Colors.white12
+                          ),
+                          margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+                          height: height * 0.12,
+                          width: width * 0.28,
+                          alignment: Alignment.topCenter,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 10,),
+                              Container(
+                                height: height*0.065,
+                                width: width * 0.25,
+                                child: AdWidget(ad: ads['myBanner$index'],)
                               ),
-                          ],
+                              const SizedBox(height: 5,),
+                              Text(
+                                  'Amr TV',
+                                  style: TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: height * 0.0135,
+                                      // color: Colors.white60
+                                    ),
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
+                          // margin: EdgeInsets.symmetric(
+                          // vertical: 00.0, horizontal: 3.0),
+                          // padding: const EdgeInsets.only(bottom: 50),
+                          // clipBehavior: Clip.antiAlias,
                         ),
-                        // margin: EdgeInsets.symmetric(
-                        // vertical: 00.0, horizontal: 3.0),
-                        // padding: const EdgeInsets.only(bottom: 50),
-                        // clipBehavior: Clip.antiAlias,
-                      );
-                },
-                // separatorBuilder: (BuildContext context, int index) {
-                //   return (index % 3 == 1)
-                //     ? Row(
-                //       children: [
-                //         Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(5),
-                //             border: Border.all(
-                //               color: Colors.white38,
-                //               // width: 8
-                //             ),
-                //             color: Colors.white12
-                //           ),
-                //           margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-                //           height: height * 0.12,
-                //           width: width * 0.28,
-                //           alignment: Alignment.topCenter,
-                //           child: Column(
-                //             children: [
-                //               const SizedBox(height: 10,),
-                //               Container(
-                //                 height: height*0.065,
-                //                 width: width * 0.25,
-                //                 child: AdWidget(ad: ads['myBanner$index'],)
-                //               ),
-                //               const SizedBox(height: 5,),
-                //               Text(
-                //                   'Amr TV',
-                //                   style: TextStyle(
-                //                       //fontWeight: FontWeight.bold,
-                //                       fontSize: height * 0.0135,
-                //                       color: Colors.white60
-                //                     ),
-                //                   textAlign: TextAlign.center,
-                //                 ),
-                //             ],
-                //           ),
-                //           // margin: EdgeInsets.symmetric(
-                //           // vertical: 00.0, horizontal: 3.0),
-                //           // padding: const EdgeInsets.only(bottom: 50),
-                //           // clipBehavior: Clip.antiAlias,
-                //         ),
-                //       ],
-                //     )
-                //     : const Divider();
-                // },
-              ),
-            ),
-          );
+                    ],
+                  );
+            },
+            // separatorBuilder: (BuildContext context, int index) {
+            //   return (index % 3 == 1)
+            //     ? Row(
+            //       children: [
+            //         Container(
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(5),
+            //             border: Border.all(
+            //               color: Colors.white38,
+            //               // width: 8
+            //             ),
+            //             color: Colors.white12
+            //           ),
+            //           margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+            //           height: height * 0.12,
+            //           width: width * 0.28,
+            //           alignment: Alignment.topCenter,
+            //           child: Column(
+            //             children: [
+            //               const SizedBox(height: 10,),
+            //               Container(
+            //                 height: height*0.065,
+            //                 width: width * 0.25,
+            //                 child: AdWidget(ad: ads['myBanner$index'],)
+            //               ),
+            //               const SizedBox(height: 5,),
+            //               Text(
+            //                   'Amr TV',
+            //                   style: TextStyle(
+            //                       //fontWeight: FontWeight.bold,
+            //                       fontSize: height * 0.0135,
+            //                       color: Colors.white60
+            //                     ),
+            //                   textAlign: TextAlign.center,
+            //                 ),
+            //             ],
+            //           ),
+            //           // margin: EdgeInsets.symmetric(
+            //           // vertical: 00.0, horizontal: 3.0),
+            //           // padding: const EdgeInsets.only(bottom: 50),
+            //           // clipBehavior: Clip.antiAlias,
+            //         ),
+            //       ],
+            //     )
+            //     : const Divider();
+            // },
+          ),
+        );
   }
 }
