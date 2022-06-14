@@ -159,26 +159,28 @@ class _ScrollState extends State<Scroll> {
     return (channel.isEmpty)
       ? const SizedBox(height: 0.1,)
       : Expanded(
-          child: ListView.builder(
-            // cacheExtent: 500,
-            itemExtent: width * 0.28,
-            shrinkWrap: true,
-            // addAutomaticKeepAlives: true,
-            physics: const AlwaysScrollableScrollPhysics (),
-            scrollDirection: Axis.horizontal,
-            // itemCount: sortedChannel.length<7? sortedChannel.length : sortedChannel.length+adCount,
-            itemCount: sortedChannel.length,
-            itemBuilder: (BuildContext context, int index) {
-              ads['myBanner$index'] = BannerAd(
-                adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-                size: AdSize.mediumRectangle,
-                request: const AdRequest(),
-                listener: BannerAdListener(
-                  onAdClosed: (ad) => ad.dispose(),
-                ),
-              );
-              ads['myBanner$index'].load();
-              return (index % 3 != 2)
+          child: SizeCacheWidget(
+            estimateCount: sortedChannel.length*2,
+            child: ListView.builder(
+              cacheExtent: 100,
+              itemExtent: width * 0.28,
+              shrinkWrap: true,
+              physics: const AlwaysScrollableScrollPhysics (),
+              scrollDirection: Axis.horizontal,
+              // addAutomaticKeepAlives: true,
+              // itemCount: sortedChannel.length<7? sortedChannel.length : sortedChannel.length+adCount,
+              itemCount: sortedChannel.length,
+              itemBuilder: (BuildContext context, int index) {
+                ads['myBanner$index'] = BannerAd(
+                  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+                  size: AdSize.mediumRectangle,
+                  request: const AdRequest(),
+                  listener: BannerAdListener(
+                    onAdClosed: (ad) => ad.dispose(),
+                  ),
+                );
+                ads['myBanner$index'].load();
+                return (index % 3 != 2)
                 ? InkWell(
                     onTap: () async {
                       // if (index == 5) {
@@ -400,53 +402,55 @@ class _ScrollState extends State<Scroll> {
                         ),
                     ],
                   );
-            },
-            // separatorBuilder: (BuildContext context, int index) {
-            //   return (index % 3 == 1)
-            //     ? Row(
-            //       children: [
-            //         Container(
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(5),
-            //             border: Border.all(
-            //               color: Colors.white38,
-            //               // width: 8
-            //             ),
-            //             color: Colors.white12
-            //           ),
-            //           margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-            //           height: height * 0.12,
-            //           width: width * 0.28,
-            //           alignment: Alignment.topCenter,
-            //           child: Column(
-            //             children: [
-            //               const SizedBox(height: 10,),
-            //               Container(
-            //                 height: height*0.065,
-            //                 width: width * 0.25,
-            //                 child: AdWidget(ad: ads['myBanner$index'],)
-            //               ),
-            //               const SizedBox(height: 5,),
-            //               Text(
-            //                   'Amr TV',
-            //                   style: TextStyle(
-            //                       //fontWeight: FontWeight.bold,
-            //                       fontSize: height * 0.0135,
-            //                       color: Colors.white60
-            //                     ),
-            //                   textAlign: TextAlign.center,
-            //                 ),
-            //             ],
-            //           ),
-            //           // margin: EdgeInsets.symmetric(
-            //           // vertical: 00.0, horizontal: 3.0),
-            //           // padding: const EdgeInsets.only(bottom: 50),
-            //           // clipBehavior: Clip.antiAlias,
-            //         ),
-            //       ],
-            //     )
-            //     : const Divider();
-            // },
+                
+                              },
+              // separatorBuilder: (BuildContext context, int index) {
+              //   return (index % 3 == 1)
+              //     ? Row(
+              //       children: [
+              //         Container(
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(5),
+              //             border: Border.all(
+              //               color: Colors.white38,
+              //               // width: 8
+              //             ),
+              //             color: Colors.white12
+              //           ),
+              //           margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+              //           height: height * 0.12,
+              //           width: width * 0.28,
+              //           alignment: Alignment.topCenter,
+              //           child: Column(
+              //             children: [
+              //               const SizedBox(height: 10,),
+              //               Container(
+              //                 height: height*0.065,
+              //                 width: width * 0.25,
+              //                 child: AdWidget(ad: ads['myBanner$index'],)
+              //               ),
+              //               const SizedBox(height: 5,),
+              //               Text(
+              //                   'Amr TV',
+              //                   style: TextStyle(
+              //                       //fontWeight: FontWeight.bold,
+              //                       fontSize: height * 0.0135,
+              //                       color: Colors.white60
+              //                     ),
+              //                   textAlign: TextAlign.center,
+              //                 ),
+              //             ],
+              //           ),
+              //           // margin: EdgeInsets.symmetric(
+              //           // vertical: 00.0, horizontal: 3.0),
+              //           // padding: const EdgeInsets.only(bottom: 50),
+              //           // clipBehavior: Clip.antiAlias,
+              //         ),
+              //       ],
+              //     )
+              //     : const Divider();
+              // },
+            ),
           ),
         );
   }

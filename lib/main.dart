@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cast/cast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,15 @@ Future<void> main() async {
   RequestConfiguration(testDeviceIds:["A78ACFFEC502EA889D3C72628759CC36"]);
   MobileAds.instance.updateRequestConfiguration(configuration);
   MobileAds.instance.initialize();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    // options: const FirebaseOptions(
+    //       apiKey: "AIzaSyC0pZbUGmbtNycs6BxCjc1QtGQz-wDgeRs",
+    //       appId: "1:366670374715:android:8b381fda45aba184a2391e",
+    //       authDomain: "amrtv-ca180.firebaseapp.com",
+    //       databaseURL: "https://{amrtv-ca180}.firebaseio.com",
+    //       messagingSenderId: "366670374715",
+    //       projectId: "amrtv-ca180")
+  );
   runApp(ChangeNotifierProvider<ThemeNotifier>(
     create: (_) => ThemeNotifier(),
     child: const MyApp(),
@@ -95,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _current = 0; //for image carousel counter
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
+  Future<List<CastDevice>> _future;
   BannerAd _bannerAd;
   bool _isBannerAdReady = false;
   bool isSearching = false;
@@ -475,9 +484,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<List<ModelChannel>> getData(http.Client client) async {
-  //  print('getx getdata');
-  //  print('${channelController.allChannelGet.value.length}');
-
     final response = await http
         .get(Uri.parse('https://amrtvbangla.bmssystems.org/fetch_jason_all_channels.php'));
     // print(response.statusCode);
@@ -663,7 +669,7 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
+          // print('Failed to load a banner ad: ${err.message}');
           _isBannerAdReady = false;
           ad.dispose();
         },
@@ -1127,126 +1133,196 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           ),
           backgroundColor: Theme.of(context).backgroundColor,
-          body: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            //reverse: true,
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 10,),
-                const SizedBox(height: 20,),
-                allFeatures != null
-                  ? CarouselSlider.builder(
-                      options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        autoPlay: false,
-                        //pageSnapping : false,
-                        enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                        //aspectRatio: 16/9,
-                        viewportFraction: 0.85,
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
-                        enlargeCenterPage: true,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _current = index;
-                          });
-                        },
-                        scrollDirection: Axis.horizontal
-                      ),
-                      itemCount: featureList.length,
-                      itemBuilder:
-                          (BuildContext context, int itemIndex, r) {
-                        return (featureList.isNotEmpty)
-                            ? InkWell(
-                                onTap: () {
-                                  List<ModelChannel> m = convertFeatured(
-                                      featureList[itemIndex]);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => GridPage(
-                                              channel: m,
-                                            )),
-                                  ).whenComplete(() {
-                                    SystemChrome.setPreferredOrientations(
-                                        [DeviceOrientation.portraitUp]);
-                                  });
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          'https://amrtvbangla.bmssystems.org/${featureList[itemIndex].elementAt(0).featureimagepath}'),
-                                      fit: BoxFit.cover,
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                //reverse: true,
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 10,),
+                    const SizedBox(height: 20,),
+                    allFeatures != null
+                      ? CarouselSlider.builder(
+                          options: CarouselOptions(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            autoPlay: false,
+                            //pageSnapping : false,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            //aspectRatio: 16/9,
+                            viewportFraction: 0.85,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            enlargeCenterPage: true,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _current = index;
+                              });
+                            },
+                            scrollDirection: Axis.horizontal
+                          ),
+                          itemCount: featureList.length,
+                          itemBuilder:
+                              (BuildContext context, int itemIndex, r) {
+                            return (featureList.isNotEmpty)
+                                ? InkWell(
+                                    onTap: () {
+                                      List<ModelChannel> m = convertFeatured(
+                                          featureList[itemIndex]);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => GridPage(
+                                                  channel: m,
+                                                )),
+                                      ).whenComplete(() {
+                                        SystemChrome.setPreferredOrientations(
+                                            [DeviceOrientation.portraitUp]);
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5)),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              'https://amrtvbangla.bmssystems.org/${featureList[itemIndex].elementAt(0).featureimagepath}'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
+                                  )
+                                : const CircularProgressIndicator();
+                          },
+                        )
+                      : Container(),
+                    Row(
+                      //for determining image position
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: featureList.map((url) {
+                        int index = featureList.indexOf(url);
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            // boxShadow: BoxShadow(color: ),
+                            color: _current == index
+                                ? const Color.fromRGBO(246, 3, 3, 0.9019607843137255)
+                                : const Color.fromRGBO(113, 111, 111, 1.0),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 20,),
+                    SizeCacheWidget(
+                      estimateCount: countryList.length*3,
+                      child: ListView.builder(
+                        cacheExtent: 1000,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: countryList.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        addAutomaticKeepAlives: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return (index ==1)
+                          ? Container(
+                              child: _isBannerAdReady?
+                                Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    width: _bannerAd.size.width.toDouble(),
+                                    height: _bannerAd.size.height.toDouble(),
+                                    child: AdWidget(ad: _bannerAd),
                                   ),
-                                ),
-                              )
-                            : const CircularProgressIndicator();
-                      },
-                    )
-                  : Container(),
-                Row(
-                  //for determining image position
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: featureList.map((url) {
-                    int index = featureList.indexOf(url);
-                    return Container(
-                      width: 8.0,
-                      height: 8.0,
-                      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        // boxShadow: BoxShadow(color: ),
-                        color: _current == index
-                            ? const Color.fromRGBO(246, 3, 3, 0.9019607843137255)
-                            : const Color.fromRGBO(113, 111, 111, 1.0),
+                                )
+                                :const SizedBox(height: 20,)
+                            )
+                          : Container(
+                              height: height*0.2,
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CountryName(countryList[index]),
+                                  Scroll(
+                                    allChannels: allChannels,
+                                    channel: countryList[index],
+                                  ),
+                                ],
+                              ),
+                            );
+                        },
                       ),
+                    ),
+                    const SizedBox(height: 72,),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 30,
+                right: 30,
+                child: FloatingActionButton(
+                  backgroundColor: const Color.fromARGB(255, 179, 17, 6),
+                  elevation: 10,
+                  onPressed: (){
+                    _startSearch();
+                    showDialog(
+                      context: context, 
+                      builder: (BuildContext context)=>
+                        AlertDialog(          
+                          content: FutureBuilder<List<CastDevice>>(
+                            future: _future,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(
+                                    'Error: ${snapshot.error.toString()}',
+                                  ),
+                                );
+                              } 
+                              else if (!snapshot.hasData) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                
+                              if (snapshot.data.isEmpty) {
+                                return Column(
+                                  children: const [
+                                    Center(
+                                      child: Text(
+                                        'No Chromecast founded',
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                
+                              return Column(
+                                children: snapshot.data.map((device) {
+                                  return ListTile(
+                                    title: Text(device.name),
+                                    onTap: () {
+                                      // _connectToYourApp(context, device);
+                                      _connectAndPlayMedia(context, device);
+                                    },
+                                  );
+                                }).toList(),
+                              );
+                            },
+                          ),
+                        )
                     );
-                  }).toList(),
-                ),
-                const SizedBox(height: 20,),
-                ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: countryList.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  addAutomaticKeepAlives: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return (index ==1)
-                    ? Container(
-                        child: _isBannerAdReady?
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              width: _bannerAd.size.width.toDouble(),
-                              height: _bannerAd.size.height.toDouble(),
-                              child: AdWidget(ad: _bannerAd),
-                            ),
-                          )
-                          :const SizedBox(height: 20,)
-                      )
-                    : Container(
-                        height: height*0.2,
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CountryName(countryList[index]),
-                            Scroll(
-                              allChannels: allChannels,
-                              channel: countryList[index],
-                            ),
-                          ],
-                        ),
-                      );
                   },
-                ),
-                const SizedBox(height: 72,),
-              ],
-            ),
+                  child: const Icon(
+                    Icons.cast,
+                    color: Colors.white,
+                  )
+                  ),
+              ),
+            ],
           ),
         )
       : Container(
@@ -1260,9 +1336,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
   }
 
-  // modelFavorite to modelChannel
-
-
+// modelFavorite to modelChannel
 // void checkPoints() {
 //   int r =
 //       await load();
@@ -1348,4 +1422,98 @@ class _MyHomePageState extends State<MyHomePage> {
 //     );
 //   }
 // }
+
+
+  void _startSearch() {
+    _future = CastDiscoveryService().search();
+  }
+
+  Future<void> _connectToYourApp(BuildContext context, CastDevice object) async {
+    final session = await CastSessionManager().startSession(object);
+
+    session.stateStream.listen((state) {
+      if (state == CastSessionState.connected) {
+        const snackBar =    SnackBar(content: Text('Connected'));
+        Scaffold.of(context).showSnackBar(snackBar);
+
+        _sendMessageToYourApp(session);
+      }
+    });
+
+    session.messageStream.listen((message) {
+      print('receive message: $message');
+    });
+
+    session.sendMessage(CastSession.kNamespaceReceiver, {
+      'type': 'LAUNCH',
+      'appId': 'com.example.cast', // set the appId of your app here
+    });
+  }
+
+  void _sendMessageToYourApp(CastSession session) {
+    print('_sendMessageToYourApp');
+
+    session.sendMessage('urn:x-cast:namespace-of-the-app', {
+      'type': 'sample',
+    });
+  }
+
+  Future<void> _connectAndPlayMedia(BuildContext context, CastDevice object) async {
+    final session = await CastSessionManager().startSession(object);
+
+    session.stateStream.listen((state) {
+      if (state == CastSessionState.connected) {
+        final snackBar = const SnackBar(content: Text('Connected'));
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
+    });
+
+    var index = 0;
+
+    session.messageStream.listen((message) {
+      index += 1;
+
+      print('receive message: $message');
+
+      if (index == 2) {
+        Future.delayed(const Duration(seconds: 5)).then((x) {
+          _sendMessagePlayVideo(session);
+        });
+      }
+    });
+
+    session.sendMessage(CastSession.kNamespaceReceiver, {
+      'type': 'LAUNCH',
+      'appId': 'com.example.cast', // set the appId of your app here
+    });
+  }
+
+  void _sendMessagePlayVideo(CastSession session) {
+    print('_sendMessagePlayVideo');
+
+    var message = {
+      // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
+      'contentId': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
+      'contentType': 'video/mp4',
+      'streamType': 'BUFFERED', // or LIVE
+
+      // Title and cover displayed while buffering
+      'metadata': {
+        'type': 0,
+        'metadataType': 0,
+        'title': "Big Buck Bunny",
+        'images': [
+          {'url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'}
+        ]
+      }
+    };
+
+    session.sendMessage(CastSession.kNamespaceMedia, {
+      'type': 'LOAD',
+      'autoPlay': true,
+      'currentTime': 0,
+      'media': message,
+    });
+  }
+
 }

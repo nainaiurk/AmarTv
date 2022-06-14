@@ -1,78 +1,41 @@
 {
   "project_info": {
-    "project_number": "643420264327",
-    "project_id": "bmssystem-b45f2",
-    "storage_bucket": "bmssystem-b45f2.appspot.com"
+    "project_number": "366670374715",
+    "project_id": "amrtv-ca180",
+    "storage_bucket": "amrtv-ca180.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:643420264327:android:84de06ca1f02aec394e522",
-        "android_client_info": {
-          "package_name": "com.ahmad.bms_system"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "643420264327-ipiv8o268rc4gcp223c4f9phjhnbokf7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ahmad.bms_system",
-            "certificate_hash": "6048a57578e3358d6eace959379ac663614f0f73"
-          }
-        },
-        {
-          "client_id": "643420264327-n9l8vm2fbjgpfuh1h6qt2d462lbnshsl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBZgAqW7fKzu09HXdGo-JGDLdGGg1YeqAw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "643420264327-n9l8vm2fbjgpfuh1h6qt2d462lbnshsl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:643420264327:android:1515245abf46a7eb94e522",
+        "mobilesdk_app_id": "1:366670374715:android:8b381fda45aba184a2391e",
         "android_client_info": {
           "package_name": "com.bmsglobalbd.AmarTV"
         }
       },
       "oauth_client": [
         {
-          "client_id": "643420264327-i3igjse172cttfoame2v330047ctc75a.apps.googleusercontent.com",
+          "client_id": "366670374715-ro5if219k0q4juq1bf8u115chesm1cp3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bmsglobalbd.AmarTV",
-            "certificate_hash": "6048a57578e3358d6eace959379ac663614f0f73"
+            "certificate_hash": "d2d288df3917667e0b2d1299c3206b9fdd5193ca"
           }
         },
         {
-          "client_id": "643420264327-n9l8vm2fbjgpfuh1h6qt2d462lbnshsl.apps.googleusercontent.com",
+          "client_id": "366670374715-vaje0ggcrgue1uns89eh4qj9l51jvj21.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBZgAqW7fKzu09HXdGo-JGDLdGGg1YeqAw"
+          "current_key": "AIzaSyC0pZbUGmbtNycs6BxCjc1QtGQz-wDgeRs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "643420264327-n9l8vm2fbjgpfuh1h6qt2d462lbnshsl.apps.googleusercontent.com",
+              "client_id": "366670374715-vaje0ggcrgue1uns89eh4qj9l51jvj21.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -13,7 +13,6 @@ import 'package:live_tv/sign_in.dart';
 import 'package:live_tv/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'global.dart' as global;
 //import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 //import 'package:live_tv/user_sign_up_model.dart';
@@ -140,19 +139,19 @@ class _RegistrationState extends State<Registration> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         //iconTheme: IconThemeData(color: Colors.black38),
-        title: Text(
+        title: const Text(
           "Sign Up",
           //style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           //color: Colors.black,
           onPressed: () {
             //Navigator.pop(context); returns black screen
             Navigator.of(context, rootNavigator: true).pop(context);
           },
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           // IconButton(
           //   icon: Icon(
           //     Icons.login,
@@ -166,7 +165,7 @@ class _RegistrationState extends State<Registration> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               height: 10.0,
             ),
@@ -209,7 +208,7 @@ class _RegistrationState extends State<Registration> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               height: 10.0,
             ),
@@ -278,7 +277,7 @@ class _RegistrationState extends State<Registration> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               height: 10.0,
             ),
@@ -347,7 +346,7 @@ class _RegistrationState extends State<Registration> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               height: 10.0,
             ),
@@ -357,12 +356,12 @@ class _RegistrationState extends State<Registration> {
                 color: Colors.white,
                 //boxShadow: kElevationToShadow[6],
               ),
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: TextField(
                 controller: _passwordController,
                 // autofillHints: channelNames,
                 enableInteractiveSelection: true,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.black
                 ),
                 enableSuggestions: true,
@@ -415,7 +414,7 @@ class _RegistrationState extends State<Registration> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               height: 30.0,
             ),
@@ -449,27 +448,27 @@ class _RegistrationState extends State<Registration> {
                 child: const Text('Sign Up', style: TextStyle(fontSize: 20)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50.0,
               width: double.infinity,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text(
+                 const Text(
                     "Already a User?",
                     style: TextStyle(
                       color: Colors.red,
                       fontSize: 20,
                     ),
                   ),
-                 SizedBox(width: 10,),
+                 const SizedBox(width: 10,),
                  InkWell(
                    onTap: (){
                      Navigator.push(
                          context,
                          MaterialPageRoute(
-                             settings: RouteSettings(name: "Sign in"),
+                             settings: const RouteSettings(name: "Sign in"),
                              builder: (c) => SignIn()));
                    },
                    child: Text(
@@ -495,7 +494,7 @@ class _RegistrationState extends State<Registration> {
             //             duration: Duration(seconds: 3),
             //           ))
             //     : Container(),
-            SizedBox(
+            const SizedBox(
               height: 50.0,
               width: double.infinity,
             ),
@@ -550,6 +549,7 @@ class _RegistrationState extends State<Registration> {
   }
 
 //   _googleLogin() async {
+// ignore: todo
 // // TODO: have to integrate for ios
 //     try {
 //       final GoogleSignInAccount googleSignInAccount =

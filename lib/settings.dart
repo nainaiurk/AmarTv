@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:live_tv/helper/database_helper.dart';
 import 'package:live_tv/main.dart';
 import 'package:provider/provider.dart';
@@ -380,6 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 (loggedIn==true)?InkWell(
                   onTap: (){
+                    GoogleSignIn().signOut();
                     setLoggedOut();
                     deleteUser();
                     Navigator.pushAndRemoveUntil(

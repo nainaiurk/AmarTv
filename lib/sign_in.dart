@@ -19,6 +19,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatelessWidget {
+  const SignIn({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
@@ -31,6 +33,8 @@ class SignIn extends StatelessWidget {
 }
 
 class LogIn extends StatefulWidget {
+  const LogIn({Key key}) : super(key: key);
+
   @override
   _LogInState createState() => _LogInState();
 }
@@ -39,55 +43,44 @@ class _LogInState extends State<LogIn> {
   String s;
   TextEditingController _userName;
   TextEditingController _password;
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final googleLogin = GoogleSignIn(
-  //   scopes: <String>[
-  //     'email',
-  //     //'https://www.googleapis.com/auth/contacts.readonly',
-  //   ],
-  // );
   setLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('logged', true);
   }
-
-  // Future<void> createUser(
-  //     String fullName, String email, String userName, String password) async {
-  //   final response = await http.post(
-  //     'https://amrtvbangla.bmssystems.org/signup.php',
-  //     // headers: <String, String>{
-  //     //   'Content-Type': 'application/json; charset=UTF-8',
-  //     // },
-  //     body: {
-  //       'fullname': fullName,
-  //       'email': email,
-  //       'username': userName,
-  //       'password': password,
-  //     },
-  //   );
-  //   s = response.body;
-  //   //print(s);
-  //   //print(User.fromJson(jsonDecode(response.body)));
-  //   //return User.fromJson(JSON.jsonDecode(response.body));
-  // }
-
-
   void google()async{
 
-    final GoogleSignInAccount googleUser =
-    await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-    await googleUser.authentication;
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+      FirebaseAuth auth = FirebaseAuth.instance;
+      User user;
+      if (googleSignInAccount != null){
+        final GoogleSignInAuthentication googleSignInAuthentication=
+        await googleSignInAccount.authentication;
 
-    final User user = (await FirebaseAuth.instance
-        .signInWithCredential(credential))
-        .user;
+        final AuthCredential credential =  GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken
+        );
+        
+        try{
+          final UserCredential userCredential = 
+          await auth.signInWithCredential(credential);
+
+          user = userCredential.user;
+
+        }
+        on FirebaseAuthException catch(e){
+          if(e.code == 'account-exists-with-different-credential'){
+            print(e.code.toString()+'2');
+          }
+          else if(e.code == 'invalid-credential'){
+            print(e.code.toString()+'3');
+          }
+        }
+        catch(e){
+          print(e.toString()+'4');
+        }
+      }
 
     // print(user.displayName);
     setLoggedIn();
@@ -98,16 +91,17 @@ class _LogInState extends State<LogIn> {
       DatabaseHelper.instance.columnName: temp.name,
       DatabaseHelper.instance.columnImage: temp.image,
     });
-    Navigator.pushAndRemoveUntil(
+  //  print(user);
+   if(user != null)
+   { Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (BuildContext context) => MyApp()),
+        MaterialPageRoute(builder: (BuildContext context) => const MyApp()),
         ModalRoute.withName('/')
-    );
+    );}
   }
 
   /*
   void _googleLogin() async {
-// TODO: have to integrate for ios
     try {
 
       final GoogleSignInAccount googleSignInAccount =
@@ -177,7 +171,7 @@ class _LogInState extends State<LogIn> {
       setLoggedIn();
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (BuildContext context) => MyApp()),
+          MaterialPageRoute(builder: (BuildContext context) => const MyApp()),
           ModalRoute.withName('/')
       );
     }
@@ -216,9 +210,9 @@ class _LogInState extends State<LogIn> {
         // Get email (since we request email permission)
         final email = await fb.getUserEmail();
         // But user can decline permission
-        if (email != null)
-          // print('And your email is $email');
-        setLoggedIn();
+        if (email != null) {
+          setLoggedIn();
+        }
         ModelUser.User temp=ModelUser.User(id: profile.userId, name: profile.name, email: email!=null?email:"", image: imageUrl);
         DatabaseHelper.instance.insert({
           DatabaseHelper.instance.columnUserId:temp.id,
@@ -228,7 +222,7 @@ class _LogInState extends State<LogIn> {
         });
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (BuildContext context) => MyApp()),
+            MaterialPageRoute(builder: (BuildContext context) => const MyApp()),
             ModalRoute.withName('/')
         );
 
@@ -262,6 +256,7 @@ class _LogInState extends State<LogIn> {
     _password = TextEditingController();
   }
 
+  @override
   void dispose() {
     _userName.dispose();
     _password.dispose();
@@ -277,19 +272,19 @@ class _LogInState extends State<LogIn> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         //iconTheme: IconThemeData(color: Colors.black38),
-        title: Text(
+        title: const Text(
           "Sign In",
           //style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           //color: Colors.black,
           onPressed: () {
             //Navigator.pop(context); returns black screen
             Navigator.of(context, rootNavigator: true).pop(context);
           },
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           // IconButton(
           //   icon: Icon(
           //     Icons.login,
@@ -302,7 +297,7 @@ class _LogInState extends State<LogIn> {
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             width: double.infinity,
             height: 10.0,
           ),
@@ -314,7 +309,7 @@ class _LogInState extends State<LogIn> {
 
               //boxShadow: kElevationToShadow[6],
             ),
-            padding: EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 16),
             child: TextField(
               controller: _userName,
               // autofillHints: channelNames,
@@ -324,7 +319,7 @@ class _LogInState extends State<LogIn> {
               cursorWidth: 2,
               cursorHeight: 20,
               autofocus: false,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black
               ),
               onSubmitted: (string) {},
@@ -334,19 +329,19 @@ class _LogInState extends State<LogIn> {
                 //hintMaxLines: 3,
                 hintText: 'User Name',
                 prefixIcon: IconButton(
-                  icon: Icon(Icons.drive_file_rename_outline),
+                  icon: const Icon(Icons.drive_file_rename_outline),
                   splashColor: Colors.blue,
                   splashRadius: 5.0,
                   color: Colors.grey,
                   onPressed: () {},
                 ),
-                hintStyle: TextStyle(color: Colors.black54),
+                hintStyle: const TextStyle(color: Colors.black54),
                 border: InputBorder.none,
                 //fillColor: Colors.red,
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: double.infinity,
             height: 10.0,
           ),
@@ -357,7 +352,7 @@ class _LogInState extends State<LogIn> {
               color: Colors.white,
               //boxShadow: kElevationToShadow[6],
             ),
-            padding: EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 16),
             child: TextField(
               controller: _password,
               // autofillHints: channelNames,
@@ -367,7 +362,7 @@ class _LogInState extends State<LogIn> {
               cursorWidth: 2,
               cursorHeight: 20,
               autofocus: false,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.black
               ),
               onSubmitted: (string) {
@@ -394,7 +389,7 @@ class _LogInState extends State<LogIn> {
                 //hintMaxLines: 3,
                 hintText: 'Password',
                 prefixIcon: IconButton(
-                  icon: Icon(Icons.lock),
+                  icon: const Icon(Icons.lock),
                   splashColor: Colors.blue,
                   splashRadius: 5.0,
                   color: Colors.grey,
@@ -409,13 +404,13 @@ class _LogInState extends State<LogIn> {
                     //         )));
                   },
                 ),
-                hintStyle: TextStyle(color: Colors.black54),
+                hintStyle: const TextStyle(color: Colors.black54),
                 border: InputBorder.none,
                 //fillColor: Colors.red,
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: double.infinity,
             height: 30.0,
           ),
@@ -455,17 +450,17 @@ class _LogInState extends State<LogIn> {
               child: const Text('Sign In', style: TextStyle(fontSize: 20)),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
-              Text("Don't have Id?"),
-              SizedBox(
+              const Text("Don't have Id?"),
+              const SizedBox(
                 width: 10,
               ),
               InkWell(
@@ -473,15 +468,15 @@ class _LogInState extends State<LogIn> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          settings: RouteSettings(name: "Sign up"),
+                          settings: const RouteSettings(name: "Sign up"),
                           builder: (c) => SignUp(),),);
                 },
-                  child: Text("Sign Up!",style: TextStyle(
+                  child: const Text("Sign Up!",style: TextStyle(
                     decoration: TextDecoration.underline,
                   ),)),
             ],
           ),
-          SizedBox(height: 20.0,),
+          const SizedBox(height: 20.0,),
           SignInButton(
             Buttons.Google,
             onPressed: () {
@@ -494,7 +489,7 @@ class _LogInState extends State<LogIn> {
               //print(s);
             },
           ),
-          SizedBox(height: 20.0,),
+          const SizedBox(height: 20.0,),
           SignInButton(Buttons.Facebook, onPressed: (){
             facebookLogin();
           }),
