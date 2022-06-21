@@ -352,6 +352,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 InkWell(
                   onTap: (){
                     _share(context);
+                    // GoogleSignIn().signOut();
+                    // setLoggedOut();
+                    // deleteUser();
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

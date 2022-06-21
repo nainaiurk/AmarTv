@@ -18,18 +18,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:live_tv/user_sign_up_model.dart';
 
 class SignUp extends StatelessWidget {
+  const SignUp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Registration(),
+      home: const Registration(),
       theme: themeNotifier.getTheme(),
     );
   }
 }
 
 class Registration extends StatefulWidget {
+  const Registration({Key key}) : super(key: key);
+
   @override
   _RegistrationState createState() => _RegistrationState();
 }
@@ -72,7 +76,7 @@ class _RegistrationState extends State<Registration> {
     );
     if(response.statusCode==200){
       setLoggedIn();
-      ModelUser.User temp=ModelUser.User(id: "", name: _fullNameController.text, email: _emailController.text, image: "");
+      ModelUser.User temp=ModelUser.User(id: "", name: _fullNameController.text.replaceFirst(_fullNameController.text[0], _fullNameController.text[0].toUpperCase()), email: _emailController.text, image: "");
       DatabaseHelper.instance.insert({
         DatabaseHelper.instance.columnUserId:"",
         DatabaseHelper.instance.columnEmail: temp.email,
@@ -81,7 +85,7 @@ class _RegistrationState extends State<Registration> {
       }).whenComplete(() {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (BuildContext context) => MyApp()),
+            MaterialPageRoute(builder: (BuildContext context) => const MyApp()),
             ModalRoute.withName('/')
         );
       });
@@ -421,10 +425,10 @@ class _RegistrationState extends State<Registration> {
             RaisedButton(
               color: Colors.grey,
               onPressed: () {
-                print(_fullNameController.text);
-                print(_emailController.text);
-                print(_userNameController.text);
-                print(_passwordController.text);
+                // print(_fullNameController.text);
+                // print(_emailController.text);
+                // print(_userNameController.text);
+                // print(_passwordController.text);
                 createUser(_fullNameController.text, _emailController.text,
                     _userNameController.text, _passwordController.text);
                 //to be added

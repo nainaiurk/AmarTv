@@ -169,13 +169,21 @@ class _LogInState extends State<LogIn> {
     );
     if(response.statusCode==200){
       setLoggedIn();
-      Navigator.pushAndRemoveUntil(
+      //  var res = jsonDecode(response.body);
+       ModelUser.User temp=ModelUser.User(id: "", name: username.replaceFirst(username[0], username[0].toUpperCase()), email: '', image: '');
+          DatabaseHelper.instance.insert({
+          DatabaseHelper.instance.columnUserId:temp.id,
+          DatabaseHelper.instance.columnEmail: temp.email,
+          DatabaseHelper.instance.columnName: temp.name,
+          DatabaseHelper.instance.columnImage: temp.image,
+        }).whenComplete(() => Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (BuildContext context) => const MyApp()),
           ModalRoute.withName('/')
-      );
+      ));
+      
     }
-    s = jsonDecode(response.body);
+    
     // print(s);
     return UserSignIn.fromJson(jsonDecode(response.body));
   }

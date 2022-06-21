@@ -705,8 +705,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return splash
-      ? Scaffold(
+    if (splash) {
+      return Scaffold(
           drawer: Container(
             width: MediaQuery.of(context).size.width * 0.7,
             child: Drawer(
@@ -1217,44 +1217,41 @@ class _MyHomePageState extends State<MyHomePage> {
                       }).toList(),
                     ),
                     const SizedBox(height: 20,),
-                    SizeCacheWidget(
-                      estimateCount: countryList.length*3,
-                      child: ListView.builder(
-                        cacheExtent: 1000,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: countryList.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        addAutomaticKeepAlives: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return (index ==1)
-                          ? Container(
-                              child: _isBannerAdReady?
-                                Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Container(
-                                    width: _bannerAd.size.width.toDouble(),
-                                    height: _bannerAd.size.height.toDouble(),
-                                    child: AdWidget(ad: _bannerAd),
-                                  ),
-                                )
-                                :const SizedBox(height: 20,)
-                            )
-                          : Container(
-                              height: height*0.2,
-                              child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CountryName(countryList[index]),
-                                  Scroll(
-                                    allChannels: allChannels,
-                                    channel: countryList[index],
-                                  ),
-                                ],
-                              ),
-                            );
-                        },
-                      ),
+                    ListView.builder(
+                      cacheExtent: 1000,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: countryList.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      addAutomaticKeepAlives: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return (index ==1)
+                        ? Container(
+                            child: _isBannerAdReady?
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  width: _bannerAd.size.width.toDouble(),
+                                  height: _bannerAd.size.height.toDouble(),
+                                  child: AdWidget(ad: _bannerAd),
+                                ),
+                              )
+                              :const SizedBox(height: 20,)
+                          )
+                        : Container(
+                            height: height*0.2,
+                            child: Column(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CountryName(countryList[index]),
+                                Scroll(
+                                  allChannels: allChannels,
+                                  channel: countryList[index],
+                                ),
+                              ],
+                            ),
+                          );
+                      },
                     ),
                     const SizedBox(height: 72,),
                   ],
@@ -1324,8 +1321,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-        )
-      : Container(
+        );
+    } else {
+      return Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           margin:EdgeInsets.only(top: height * 0.45, bottom: height * 0.45),
@@ -1334,6 +1332,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //fit: BoxFit.cover,
           ),
         );
+    }
   }
 
 // modelFavorite to modelChannel
