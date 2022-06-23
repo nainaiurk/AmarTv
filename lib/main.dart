@@ -865,7 +865,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => FavoriteGrid(),
+                                  builder: (context) => const FavoriteGrid(),
                                 ),
                               ).whenComplete(() {
                                 SystemChrome.setPreferredOrientations(

@@ -113,176 +113,184 @@ class _MyHomeState extends State<MyHome> {
 
           ),
       body: (hasData == true)
-          ? Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                GridView.count(
-                  primary: true,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  padding: const EdgeInsets.all(20),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 3,
-                  children: List.generate(channel.length, (index) {
-                    return InkWell(
-                      onTap: () async {
-                        int i = await load();
-                        if(channel[index].channelurl==null){
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: Colors.purpleAccent[800],
-                            behavior: SnackBarBehavior.floating,
-                            //width: MediaQuery.of(context).size.width*0.5,
-                            elevation: 20.0,
-                            content: const Text(
-                              "The channel is not live now, try again later",
-                              textAlign: TextAlign.center,
-                            ),
-                            duration: const Duration(seconds: 5),
-                          ));
-                        }else{
-                          if (i >= 1) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    settings:
-                                    const RouteSettings(name: 'youtube player'),
-                                    builder: (context) => LiveTvPlayer(
-                                      channel: channel[index],
-                                    ))).whenComplete(() {
-                              SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-                            });
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.blueGrey[800],
-                                  elevation: 24.0,
-                                  title: const Text(
-                                    "You don't have enough coins to watch TV",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  content: Container(
-                                    width: width*0.5,
-                                    height: height*0.0,
-                                  ),
-                                  actions: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            //width: width*0.25,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.white)
-                                            ),
-                                            child: TextButton(
-                                              child: const Text(
-                                                "Cancel",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                //Navigator.of(context, rootNavigator: true).pop();
-                                                // Navigator.pop(buildContext);
-                                                // Navigator.pop(buildContext);
-                                                Navigator.of(context).pop();
-                                                // Navigator.of(c,rootNavigator: true).pop();
-                                                //_incrementCounter();// for fixing bug
-
-                                                //Navigator.of(context, rootNavigator: true).pop(context);
-                                                //Navigator.of(context).popUntil((route) => false);
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.white)
-                                            ),
-                                            //width: width*0.25,
-                                            child: TextButton(
-                                              child: const Text(
-                                                "Get Free Coin",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        settings:
-                                                        const RouteSettings(name: "Reward"),
-                                                        builder: (_) => Rewards()));
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        }
-                      },
-                      child: Column(children: [
-                        Container(
-                          height: height*0.08,
-                          child: FadeInImage.assetNetwork(
-                            placeholder: 'assets/image/placeHolder.png',
-                            image: channel[index].channelimage,
-                            fadeInDuration: const Duration(seconds: 5),
-                            fadeInCurve: Curves.bounceIn,
-                            fit: BoxFit.cover,
-                          ),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            //  borderRadius: BorderRadius.all(Radius.circular(12)),
-                            // image: DecorationImage(
-                            //   image: NetworkImage(
-                            //     channel[index].channelimage,
-                            //   ),
-                            //fit: BoxFit.cover,
-                          ),
-                        ),
-                        Container(
-                          //color: Colors.black12,
-                         // width: 200,
-                          //height: 14,
-                          child: Text(
-                            channel[index].channelname,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: height*0.02,
-                              color: Colors.white,
-                            ),
+        ? Column(
+            children: [
+              const SizedBox(height: 30,),
+              GridView.count(
+                primary: true,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.all(20),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 3,
+                children: List.generate(channel.length, (index) {
+                  return InkWell(
+                    onTap: () async {
+                      int i = await load();
+                      if(channel[index].channelurl==null){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.purpleAccent[800],
+                          behavior: SnackBarBehavior.floating,
+                          //width: MediaQuery.of(context).size.width*0.5,
+                          elevation: 20.0,
+                          content: const Text(
+                            "The channel is not live now, try again later",
                             textAlign: TextAlign.center,
                           ),
+                          duration: const Duration(seconds: 5),
+                        ));
+                      }
+                      else{
+                        if (i >= 1) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  settings:
+                                  const RouteSettings(name: 'youtube player'),
+                                  builder: (context) => LiveTvPlayer(
+                                    channel: channel[index],
+                                  ))).whenComplete(() {
+                            SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+                          });
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                backgroundColor: Colors.blueGrey[800],
+                                elevation: 24.0,
+                                title: const Text(
+                                  "You don't have enough coins to watch TV",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                content: Container(
+                                  width: width*0.5,
+                                  height: height*0.0,
+                                ),
+                                actions: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          //width: width*0.25,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.white)
+                                          ),
+                                          child: TextButton(
+                                            child: const Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              //Navigator.of(context, rootNavigator: true).pop();
+                                              // Navigator.pop(buildContext);
+                                              // Navigator.pop(buildContext);
+                                              Navigator.of(context).pop();
+                                              // Navigator.of(c,rootNavigator: true).pop();
+                                              //_incrementCounter();// for fixing bug
+
+                                              //Navigator.of(context, rootNavigator: true).pop(context);
+                                              //Navigator.of(context).popUntil((route) => false);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.white)
+                                          ),
+                                          //width: width*0.25,
+                                          child: TextButton(
+                                            child: const Text(
+                                              "Get Free Coin",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      settings:
+                                                      const RouteSettings(name: "Reward"),
+                                                      builder: (_) => Rewards()));
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
+                              // width: 8
+                            ),
+                            color: Colors.white12
+                          ),
+                          margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+                          height: height * 0.12,
+                          width: width * 0.28,
+                          alignment: Alignment.topCenter,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 10,),
+                              Container(
+                                height: height*0.065,
+                                width: width * 0.25,
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/image/placeHolder.png',
+                                  fit: BoxFit.cover,
+                                  image: channel[index].channelimage,
+                                  fadeInDuration: const Duration(seconds: 5),
+                                  fadeInCurve: Curves.bounceIn,
+                                ),
+                              ),
+                              const SizedBox(height: 5,),
+                              Text(
+                                channel[index].channelname,
+                                style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.0135,
+                                    // color: Colors.white60
+                                  ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
-                      ]),
-                    );
-                  }),
-                ),
-              ],
-            )
-          : const Center(
-              child: Text("You haven't added any favorites yet!"),
-            ),
+                      ]
+                    ),
+                  );
+                }),
+              ),
+            ],
+          )
+        : const Center(
+            child: Text("You haven't added any favorites yet!"),
+          ),
     );
   }
 }
