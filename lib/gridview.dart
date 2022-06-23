@@ -115,13 +115,42 @@ class _MyGridState extends State<MyGrid> {
           );
           ads['myBannerGrid$index'].load();
           return (index % 4 == 1)
-            ? Container(
-              alignment: Alignment.center,
-              // color: Colors.red,
-              child: isloading
-                ? const CircularProgressIndicator()
-                :AdWidget(ad: ads['myBannerGrid$index']),
-              margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 3.0),
+            ? Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
+                    ),
+                    color: Colors.white12
+                  ),
+                  margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+                  height: height * 0.12,
+                  width: width * 0.28,
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10,),
+                      Container(
+                        height: height*0.065,
+                        width: width * 0.25,
+                        child: AdWidget(ad: ads['myBannerGrid$index'],)
+                      ),
+                      const SizedBox(height: 5,),
+                      Text(
+                          'Amr TV',
+                          style: TextStyle(
+                              //fontWeight: FontWeight.bold,
+                              fontSize: height * 0.0135,
+                              // color: Colors.white60
+                            ),
+                          textAlign: TextAlign.center,
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             )
             : InkWell(
                 onTap: () async {
@@ -242,63 +271,102 @@ class _MyGridState extends State<MyGrid> {
                   children: [
                     channel[index].channelurl != null
                       ? Container(
-                        height: height * 0.08,
-                        //width: width*0.2,
-                        child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/image/placeHolder.png',
-                          fit: BoxFit.cover,
-                          image: channel[index].channelimage,
-                          fadeInDuration: const Duration(seconds: 5),
-                          fadeInCurve: Curves.bounceIn,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
+                            // width: 8
+                          ),
+                          color: Colors.white12
                         ),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.rectangle,
+                        margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+                        height: height * 0.12,
+                        width: width * 0.28,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 10,),
+                            Container(
+                              height: height*0.065,
+                              width: width * 0.25,
+                              child: FadeInImage.assetNetwork(
+                                placeholder: 'assets/image/placeHolder.png',
+                                fit: BoxFit.cover,
+                                image: channel[index].channelimage,
+                                fadeInDuration: const Duration(seconds: 5),
+                                fadeInCurve: Curves.bounceIn,
+                              ),
+                            ),
+                            const SizedBox(height: 5,),
+                            Text(
+                              channel[index].channelname,
+                              style: TextStyle(
+                                  //fontWeight: FontWeight.bold,
+                                  fontSize: height * 0.0135,
+                                  // color: Colors.white60
+                                ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                       )
                       : Container(
-                          height: height * 0.08,
-                          child: Image.asset(
-                            "assets/icon/icon.png",
-                            //scale: 1.0,
-                            width: width * 0.25,
-                            fit: BoxFit.cover,).blurred(
-                            blur: 4,
-                            overlay: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.error_outline_sharp,
-                                  size: width * 0.05,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  "Not Live",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: width * 0.03,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
+                            // width: 8
                           ),
+                          color: Colors.white12
                         ),
-                    Container(
-                      //color: Colors.black12,
-                      //width: 200,
-                      //height: 14,
-                      child: Text(
-                        channel[index].channelname,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: height * 0.02,
-                          //color: Colors.white,
+                        margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+                        height: height * 0.12,
+                        width: width * 0.28,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3),
+                              child: Image.asset(
+                                "assets/icon/icon.png",
+                                height: height*0.07,
+                                width: width * 0.25,
+                                fit: BoxFit.fitHeight,).blurred(
+                                blur: 4,
+                                overlay: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline_sharp,
+                                      size: height *0.02,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      "Not Live",
+                                      textAlign:TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:width * 0.03,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 5,),
+                            Text(
+                              channel[index].channelname,
+                              style: TextStyle(
+                                  //fontWeight: FontWeight.bold,
+                                  fontSize: height * 0.0135,
+                                  // color: Colors.white60
+                                ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ]
+                  ],
                 ),
               );
           }
