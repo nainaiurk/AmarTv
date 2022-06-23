@@ -916,7 +916,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   context,
                                   MaterialPageRoute(
                                       settings:
-                                      RouteSettings(name: 'Top 10 page'),
+                                      const RouteSettings(name: 'Top 10 page'),
                                       builder: (context) => TopGridPage()))
                                   .whenComplete(() {
                                 SystemChrome.setPreferredOrientations(
