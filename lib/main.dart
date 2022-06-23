@@ -654,10 +654,6 @@ class _MyHomePageState extends State<MyHomePage> {
     userLoginStatus();
     checkVersion();
     getUser();
-    //getDialog();
-    //getAppVersion();
-    //checkVersions(version, appVersion);
-    //print(version);
     _bannerAd = BannerAd(
       adUnitId: 'ca-app-pub-3940256099942544/6300978111',
       request: const AdRequest(),
