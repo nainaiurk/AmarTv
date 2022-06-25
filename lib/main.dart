@@ -1,15 +1,14 @@
 // ignore_for_file: prefer_final_fields, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, unused_catch_clause, sized_box_for_whitespace
 import 'dart:async';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cast/cast.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
-import 'package:keframe/keframe.dart';
 import 'package:live_tv/api_service/apis.dart';
 import 'package:live_tv/category.dart';
 import 'package:live_tv/controller/channelController.dart';
@@ -36,24 +35,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  // setUpLocator();
-  // debugPaintSizeEnabled=true;
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
   RequestConfiguration configuration =
   RequestConfiguration(testDeviceIds:["A78ACFFEC502EA889D3C72628759CC36"]);
   MobileAds.instance.updateRequestConfiguration(configuration);
   MobileAds.instance.initialize();
-  await Firebase.initializeApp(
-    // options: const FirebaseOptions(
-    //       apiKey: "AIzaSyC0pZbUGmbtNycs6BxCjc1QtGQz-wDgeRs",
-    //       appId: "1:366670374715:android:8b381fda45aba184a2391e",
-    //       authDomain: "amrtv-ca180.firebaseapp.com",
-    //       databaseURL: "https://{amrtv-ca180}.firebaseio.com",
-    //       messagingSenderId: "366670374715",
-    //       projectId: "amrtv-ca180")
-  );
+  await Firebase.initializeApp();
   runApp(ChangeNotifierProvider<ThemeNotifier>(
     create: (_) => ThemeNotifier(),
     child: const MyApp(),
@@ -65,17 +53,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Amr TV',
       theme: themeNotifier.getTheme(),
-      // navigatorObservers: [locator<AnalyticsService>().getAnalyticsObserver()],
       home: const MyHomePage(
           title: 'Amr TV',
-          // analytics: locator<AnalyticsService>().getAnalytics(),
-          // observer: locator<AnalyticsService>().getAnalyticsObserver()),
     ));
   }
 }
@@ -92,17 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<SharedPreferences> _prf = SharedPreferences.getInstance();
 
   final ChannelController channelController = Get.put(ChannelController());
-
-  String _connectionStatus = 'Unknown';
   int counter;
-  final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  // String _connectionStatus = 'Unknown';
+  // final Connectivity _connectivity = Connectivity();
+  // StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   _MyHomePageState();
 
   TextEditingController _controller;
 
-  int _current = 0; //for image carousel counter
+  // int _current = 0; //for image carousel counter
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<List<CastDevice>> _future;
   BannerAd _bannerAd;
@@ -125,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter=0;
   bool splash = false;
   bool loggedIn;
+  final ValueNotifier<int> checkIndex = ValueNotifier(0);
 
   // Future<void> _sendChannelInfo(
   //     FirebaseAnalytics a, ModelChannel modelChannel) async {
@@ -189,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         onPressed: () {
-                          _setToZero();
+                          // _setToZero();
                           //Navigator.of(context, rootNavigator: true).pop();
                           // Navigator.pop(buildContext);
                           // Navigator.pop(buildContext);
@@ -215,13 +200,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         onPressed: () {
-                          _setToZero();
+                          // _setToZero();
                           Navigator.of(c, rootNavigator: true).pop();
                           Navigator.push(
                               c,
                               MaterialPageRoute(
                                   settings: const RouteSettings(name: "Sign up"),
-                                  builder: (_) => SignUp()));
+                                  builder: (_) => const SignUp()));
 
                           // Navigator.pop(c);
                           //Navigator.of(c, rootNavigator: true).pop();
@@ -348,13 +333,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return channel;
   }
 
-  _setToZero() async {
-    SharedPreferences preferences = await _prefs;
-    setState(() {
-      _counter = 1;
-      preferences.setInt('counter', _counter);
-    });
-  }
+  // _setToZero() async {
+  //   SharedPreferences preferences = await _prefs;
+  //   setState(() {
+  //     _counter = 1;
+  //     preferences.setInt('counter', _counter);
+  //   });
+  // }
 
  Future<int> _loadCounter() async {
     final SharedPreferences prefs = await _prefs;
@@ -491,7 +476,6 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         allChannels = parseChannel(response.body);
       });
-
       allChannels.forEach((element) {
         if (channelType.isEmpty) {
           channelType.add(element.channeltype);
@@ -524,52 +508,48 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      // print(e.toString());
-    }
+  // Future<void> initConnectivity() async {
+  //   ConnectivityResult result = ConnectivityResult.none;
+  //   try {
+  //     result = await _connectivity.checkConnectivity();
+  //   } on PlatformException catch (e) {
+  //     // print(e.toString());
+  //   }
+  //   // If the widget was removed from the tree while the asynchronous platform
+  //   // message was in flight, we want to discard the reply rather than calling
+  //   // setState to update our non-existent appearance.
+  //   if (!mounted) {
+  //     return Future.value(null);
+  //   }
+  //   return _updateConnectionStatus(result);
+  // }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        setState(() {
-          _connectionStatus = result.toString();
-        });
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text(_connectionStatus),
-        //   duration: Duration(seconds: 3),
-        // ));
-        break;
-      default:
-        setState(() => _connectionStatus = 'Failed to get connectivity.');
-        if (_connectionStatus.contains("Failed")) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(_connectionStatus),
-            duration: const Duration(seconds: 3),
-          ));
-        }
-
-        break;
-    }
-  }
+  // Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  //   switch (result) {
+  //     case ConnectivityResult.wifi:
+  //     case ConnectivityResult.mobile:
+  //     case ConnectivityResult.none:
+  //       setState(() {
+  //         _connectionStatus = result.toString();
+  //       });
+  //       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       //   content: Text(_connectionStatus),
+  //       //   duration: Duration(seconds: 3),
+  //       // ));
+  //       break;
+  //     default:
+  //       setState(() => _connectionStatus = 'Failed to get connectivity.');
+  //       if (_connectionStatus.contains("Failed")) {
+  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           content: Text(_connectionStatus),
+  //           duration: const Duration(seconds: 3),
+  //         ));
+  //       }
+  //       break;
+  //   }
+  // }
 
   checkVersion() {
-
     Apis().fetchVersion(http.Client()).then((value) {
       modelVersion = value;
       s1 = modelVersion.s0;
@@ -592,7 +572,6 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         }
       });
-
     });
   }
 
@@ -611,7 +590,6 @@ class _MyHomePageState extends State<MyHomePage> {
     //  print(value);
    });
     _loadCounter().then((value) {
-
       if ((temp != true) &&
           (value != null && value % 5 == 0) &&
           (version == appVersion)) {
@@ -623,7 +601,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
   }
-
 
   ModelChannel convertSingle(Favorite data) {
     ModelChannel m = ModelChannel(
@@ -677,9 +654,9 @@ class _MyHomePageState extends State<MyHomePage> {
         splash = true;
       });
     });
-    initConnectivity();
-    _connectivitySubscription =
-    _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    // initConnectivity();
+    // _connectivitySubscription =
+    // _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     _loadCounter();
     _incrementCounter();
     getData(http.Client());
@@ -693,7 +670,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     _controller.dispose();
-    _connectivitySubscription.cancel();
+    // _connectivitySubscription.cancel();
     super.dispose();
   }
 
@@ -1132,122 +1109,115 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Stack(
             children: [
               SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
-                //reverse: true,
                 child: Column(
                   children: <Widget>[
-                    const SizedBox(height: 10,),
-                    const SizedBox(height: 20,),
                     allFeatures != null
                       ? CarouselSlider.builder(
-                          options: CarouselOptions(
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            autoPlay: false,
-                            //pageSnapping : false,
-                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                            //aspectRatio: 16/9,
-                            viewportFraction: 0.85,
-                            initialPage: 0,
-                            enableInfiniteScroll: false,
-                            enlargeCenterPage: true,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                _current = index;
-                              });
-                            },
-                            scrollDirection: Axis.horizontal
-                          ),
-                          itemCount: featureList.length,
-                          itemBuilder:
-                              (BuildContext context, int itemIndex, r) {
-                            return (featureList.isNotEmpty)
-                                ? InkWell(
-                                    onTap: () {
-                                      List<ModelChannel> m = convertFeatured(
-                                          featureList[itemIndex]);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => GridPage(
-                                                  channel: m,
-                                                )),
-                                      ).whenComplete(() {
-                                        SystemChrome.setPreferredOrientations(
-                                            [DeviceOrientation.portraitUp]);
-                                      });
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(5)),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              'https://amrtvbangla.bmssystems.org/${featureList[itemIndex].elementAt(0).featureimagepath}'),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : const CircularProgressIndicator();
+                        options: CarouselOptions(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          autoPlay: true,
+                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                          viewportFraction: 0.85,
+                          initialPage: 0,
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            checkIndex.value = index;
                           },
-                        )
+                          scrollDirection: Axis.horizontal
+                        ),
+                        itemCount: featureList.length,
+                        itemBuilder: (BuildContext context, int itemIndex, r) {
+                          return (featureList.isNotEmpty)
+                            ? InkWell(
+                                onTap: () {
+                                  List<ModelChannel> m = convertFeatured(featureList[itemIndex]);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => GridPage(channel: m,)
+                                    ),
+                                  ).whenComplete(() {SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);});
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  ),
+                                  child:  CachedNetworkImage(imageUrl: 'https://amrtvbangla.bmssystems.org/${featureList[itemIndex].elementAt(0).featureimagepath}',)
+                                  ),
+                              )
+                            : const CircularProgressIndicator();
+                        },
+                      )
                       : Container(),
-                    Row(
-                      //for determining image position
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: featureList.map((url) {
-                        int index = featureList.indexOf(url);
-                        return Container(
-                          width: 8.0,
-                          height: 8.0,
-                          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            // boxShadow: BoxShadow(color: ),
-                            color: _current == index
-                                ? const Color.fromRGBO(246, 3, 3, 0.9019607843137255)
-                                : const Color.fromRGBO(113, 111, 111, 1.0),
-                          ),
+                    ValueListenableBuilder(
+                      valueListenable: checkIndex,
+                      builder: (context,checkindex,child) {
+                        return Row(
+                          //for determining image position
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: featureList.map((url) {
+                            int index = featureList.indexOf(url);
+                            return Container(
+                              width: 8.0,
+                              height: 8.0,
+                              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                // boxShadow: BoxShadow(color: ),
+                                color: checkindex == index
+                                    ? const Color.fromRGBO(246, 3, 3, 0.9019607843137255)
+                                    : const Color.fromRGBO(113, 111, 111, 1.0),
+                              ),
+                            );
+                          }).toList(),
                         );
-                      }).toList(),
+                      }
                     ),
                     const SizedBox(height: 20,),
-                    ListView.builder(
-                      cacheExtent: 1000,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: countryList.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      addAutomaticKeepAlives: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return (index ==1)
-                        ? Container(
-                            child: _isBannerAdReady?
-                              Align(
-                                alignment: Alignment.topCenter,
-                                child: Container(
-                                  width: _bannerAd.size.width.toDouble(),
-                                  height: _bannerAd.size.height.toDouble(),
-                                  child: AdWidget(ad: _bannerAd),
-                                ),
-                              )
-                              :const SizedBox(height: 20,)
-                          )
-                        : Container(
-                            height: height*0.2,
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CountryName(countryList[index]),
-                                Scroll(
-                                  allChannels: allChannels,
-                                  channel: countryList[index],
-                                ),
-                              ],
-                            ),
-                          );
-                      },
+                    Container(
+                      height: height,
+                      child: ListView.builder(
+                        cacheExtent: 1000,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: countryList.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        addAutomaticKeepAlives: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return (index ==1)
+                          ? Container(
+                              child: _isBannerAdReady?
+                                Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    width: _bannerAd.size.width.toDouble(),
+                                    height: _bannerAd.size.height.toDouble(),
+                                    child: AdWidget(ad: _bannerAd),
+                                  ),
+                                )
+                                :const SizedBox(height: 0,)
+                            )
+                          : 
+                          Container(
+                              height: height*0.2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CountryName(countryList[index]),
+                                  Container(
+                                    child: Scroll(
+                                      allChannels: allChannels,
+                                      channel: countryList[index],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                        },
+                      ),
                     ),
                     const SizedBox(height: 72,),
                   ],
