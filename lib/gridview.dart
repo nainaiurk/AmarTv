@@ -66,17 +66,18 @@ class _MyGridState extends State<MyGrid> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-          title: (channel.length < 20)
-            ? Text(
-                channel[0].categoryname + " Channels",
-                //style: TextStyle(color: Colors.black),
-              )
-            : Text(
-                "All Channels  ${channel[0].categoryname}",
-                style: const TextStyle(
-                  //color: Colors.black
-                ),
-              ),
+          title: const Text('All Channels'),
+          // (channel.length < 20)
+          //   ? Text(
+          //       channel[0].categoryname + " Channels",
+          //       //style: TextStyle(color: Colors.black),
+          //     )
+          //   : Text(
+          //       "All Channels  ${channel[0].categoryname}",
+          //       style: const TextStyle(
+          //         //color: Colors.black
+          //       ),
+          //     ),
           leading: IconButton(
             icon: const Icon(Icons.chevron_left),
             //color: Colors.black,
@@ -94,65 +95,66 @@ class _MyGridState extends State<MyGrid> {
         padding: const EdgeInsets.all(20),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         children: List.generate(channel.length, (index) {
-          ads['myBannerGrid$index'] = BannerAd(
-            adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-            size: AdSize.largeBanner,
-            request: const AdRequest(),
-            listener: BannerAdListener(
-              onAdClosed: (ad) => ad.dispose(),
-              onAdFailedToLoad: (ad,e){
-                // print('bb$e');
-              },
-              onAdLoaded: (Ad ad) {
-                setState(() {
-                  isloading=false;
-                });
-                // print('qq $isloading');
-              },
-            ),
-          );
-          ads['myBannerGrid$index'].load();
-          return (index % 4 == 1)
-            ? Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
-                    ),
-                    color: Colors.white12
-                  ),
-                  margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-                  height: height * 0.12,
-                  width: width * 0.28,
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10,),
-                      Container(
-                        height: height*0.065,
-                        width: width * 0.25,
-                        child: AdWidget(ad: ads['myBannerGrid$index'],)
-                      ),
-                      const SizedBox(height: 5,),
-                      Text(
-                          'Amr TV',
-                          style: TextStyle(
-                              //fontWeight: FontWeight.bold,
-                              fontSize: height * 0.0135,
-                              // color: Colors.white60
-                            ),
-                          textAlign: TextAlign.center,
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-            : InkWell(
+          // ads['myBannerGrid$index'] = BannerAd(
+          //   adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+          //   size: AdSize.mediumRectangle,
+          //   request: const AdRequest(),
+          //   listener: BannerAdListener(
+          //     onAdClosed: (ad) => ad.dispose(),
+          //     onAdFailedToLoad: (ad,e){
+          //       // print('bb$e');
+          //     },
+          //     // onAdLoaded: (Ad ad) {
+          //     //   setState(() {
+          //     //     isloading=false;
+          //     //   });
+          //     //   // print('qq $isloading');
+          //     // },
+          //   ),
+          // );
+          // ads['myBannerGrid$index'].load();
+          // return (index % 4 == 1)
+            // ? Column(
+            //   children: [
+            //     Container(
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(5),
+            //         border: Border.all(
+            //           color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
+            //         ),
+            //         color: Colors.white12
+            //       ),
+            //       margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
+            //       height: height * 0.12,
+            //       width: width * 0.28,
+            //       alignment: Alignment.topCenter,
+            //       child: Column(
+            //         children: [
+            //           const SizedBox(height: 10,),
+            //           Container(
+            //             height: height*0.065,
+            //             width: width * 0.25,
+            //             child: AdWidget(ad: ads['myBannerGrid$index'],)
+            //           ),
+            //           const SizedBox(height: 5,),
+            //           Text(
+            //               'Amr TV',
+            //               style: TextStyle(
+            //                   //fontWeight: FontWeight.bold,
+            //                   fontSize: height * 0.0135,
+            //                   // color: Colors.white60
+            //                 ),
+            //               textAlign: TextAlign.center,
+            //             ),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // )
+            // : 
+            return InkWell(
                 onTap: () async {
                   int i = await load();
                   if (channel[index].channelurl == null) {

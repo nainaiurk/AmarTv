@@ -38,7 +38,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   RequestConfiguration configuration =
-  RequestConfiguration(testDeviceIds:["A78ACFFEC502EA889D3C72628759CC36"]);
+  RequestConfiguration(testDeviceIds:["ED31222F2DB8F18FF3498045EF4E6BB6"]);
   MobileAds.instance.updateRequestConfiguration(configuration);
   MobileAds.instance.initialize();
   await Firebase.initializeApp();
@@ -632,7 +632,7 @@ class _MyHomePageState extends State<MyHomePage> {
     checkVersion();
     getUser();
     _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      adUnitId: 'ca-app-pub-6179877812536274/4678053285',
       request: const AdRequest(),
       size: const AdSize(height: 400,width: 380),
       listener: BannerAdListener(
@@ -1177,47 +1177,45 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                     ),
                     const SizedBox(height: 20,),
-                    Container(
-                      height: height,
-                      child: ListView.builder(
-                        cacheExtent: 1000,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: countryList.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        addAutomaticKeepAlives: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return (index ==1)
+                    ListView.builder(
+                      cacheExtent: 1000,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: countryList.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      addAutomaticKeepAlives: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return (index ==1)
+                        ? Container(
+                            child: _isBannerAdReady?
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  width: _bannerAd.size.width.toDouble(),
+                                  height: _bannerAd.size.height.toDouble(),
+                                  child: AdWidget(ad: _bannerAd),
+                                ),
+                              )
+                              :const SizedBox(height: 0,)
+                          )
+                        : countryList[index].any((element) => element.channelurl!=null)
                           ? Container(
-                              child: _isBannerAdReady?
-                                Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Container(
-                                    width: _bannerAd.size.width.toDouble(),
-                                    height: _bannerAd.size.height.toDouble(),
-                                    child: AdWidget(ad: _bannerAd),
-                                  ),
-                                )
-                                :const SizedBox(height: 0,)
-                            )
-                          : 
-                          Container(
-                              height: height*0.2,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CountryName(countryList[index]),
+                            height: height*0.2,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CountryName(countryList[index]),
                                   Container(
                                     child: Scroll(
                                       allChannels: allChannels,
                                       channel: countryList[index],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                        },
-                      ),
+                                  )
+                              ],
+                            ),
+                          )
+                          : Container();
+                      },
                     ),
                     const SizedBox(height: 72,),
                   ],
@@ -1234,7 +1232,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     showDialog(
                       context: context, 
                       builder: (BuildContext context)=>
-                        AlertDialog(          
+                        AlertDialog(    
+                          scrollable: true,    
                           content: FutureBuilder<List<CastDevice>>(
                             future: _future,
                             builder: (context, snapshot) {
@@ -1268,7 +1267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   return ListTile(
                                     title: Text(device.name),
                                     onTap: () {
-                                      // _connectToYourApp(context, device);
+                                      _connectToYourApp(context, device);
                                       _connectAndPlayMedia(context, device);
                                     },
                                   );
@@ -1301,92 +1300,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-// modelFavorite to modelChannel
-// void checkPoints() {
-//   int r =
-//       await load();
-//
-//   if (r >= 100) {
-//     ModelChannel t =
-//     convertSingle(
-//         snapshot.data[
-//         index]);
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//         builder:
-//             (context) =>
-//             LiveTvPlayer(
-//               channel: t,
-//             ),
-//       ),
-//     );
-//   } else {
-//     showDialog(
-//       context:
-//       context,
-//       builder:
-//           (context) {
-//         return AlertDialog(
-//           backgroundColor:
-//           Colors.blueGrey[
-//           800],
-//           elevation:
-//           24.0,
-//           title: Text(
-//             "You don't have enough coins to watch TV",
-//             textAlign: TextAlign.center,
-//             style: TextStyle(
-//               fontWeight: FontWeight.bold,
-//               color: Colors.white,
-//             ),
-//           ),
-//           actions: <Widget>[
-//             TextButton(
-//               child: Text(
-//                 "Watch Later",
-//                 style: TextStyle(
-//                   fontWeight: FontWeight.bold,
-//                   color: Colors.white,
-//                 ),
-//               ),
-//               onPressed: () {
-//
-//                 //Navigator.of(context, rootNavigator: true).pop();
-//                 // Navigator.pop(buildContext);
-//                 // Navigator.pop(buildContext);
-//                 Navigator.of(context).pop();
-//                 // Navigator.of(c,rootNavigator: true).pop();
-//                 //_incrementCounter();// for fixing bug
-//
-//                 //Navigator.of(context, rootNavigator: true).pop(context);
-//                 //Navigator.of(context).popUntil((route) => false);
-//               },
-//             ),
-//             TextButton(
-//               child: Text(
-//                 "Watch Now",
-//                 style: TextStyle(
-//                   fontWeight: FontWeight.bold,
-//                   color: Colors.white,
-//                 ),
-//               ),
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//                 Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         settings: RouteSettings(name: "Reward"),
-//                         builder: (_) => Rewards()));
-//
-//               },
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-// }
 
 
   void _startSearch() {
@@ -1399,7 +1312,7 @@ class _MyHomePageState extends State<MyHomePage> {
     session.stateStream.listen((state) {
       if (state == CastSessionState.connected) {
         const snackBar =    SnackBar(content: Text('Connected'));
-        Scaffold.of(context).showSnackBar(snackBar);
+        // Scaffold.of(context).showSnackBar(snackBar);
 
         _sendMessageToYourApp(session);
       }
@@ -1411,7 +1324,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     session.sendMessage(CastSession.kNamespaceReceiver, {
       'type': 'LAUNCH',
-      'appId': 'com.example.cast', // set the appId of your app here
+      'appId': 'ca-app-pub-6179877812536274~6906889165', // set the appId of your app here
     });
   }
 
@@ -1428,8 +1341,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     session.stateStream.listen((state) {
       if (state == CastSessionState.connected) {
-        final snackBar = const SnackBar(content: Text('Connected'));
-        Scaffold.of(context).showSnackBar(snackBar);
+        const snackBar = SnackBar(content: Text('Connected'));
+        // Scaffold.of(context).showSnackBar(snackBar);
       }
     });
 
@@ -1449,7 +1362,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     session.sendMessage(CastSession.kNamespaceReceiver, {
       'type': 'LAUNCH',
-      'appId': 'com.example.cast', // set the appId of your app here
+      'appId': 'com.bmsglobalbd.AmarTV', // set the appId of your app here
     });
   }
 
@@ -1458,7 +1371,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var message = {
       // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
-      'contentId': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
+      'contentId': 'http://deviceip:port/appscreen',
       'contentType': 'video/mp4',
       'streamType': 'BUFFERED', // or LIVE
 
@@ -1468,7 +1381,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'metadataType': 0,
         'title': "Big Buck Bunny",
         'images': [
-          {'url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'}
+          {'url': 'http://deviceip:port/appscreen'}
         ]
       }
     };

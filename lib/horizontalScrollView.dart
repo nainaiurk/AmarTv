@@ -65,6 +65,7 @@ class _ScrollState extends State<Scroll> {
   }
 
   BannerAd myBanner;
+  var all;
 
   @override
   void initState() {
@@ -232,23 +233,13 @@ class _ScrollState extends State<Scroll> {
                           children: [
                             const SizedBox(height: 3,),
                             sortedChannel[index].channelurl !=null
-                              ? 
-                              CachedNetworkImage(
+                              ? CachedNetworkImage(
                                 height: height*0.08,
                                 width: width * 0.25,
                                 fit: BoxFit.fitHeight,
                                 imageUrl: sortedChannel[index].channelimage,
                                 placeholder: (context, url) => const Image(image: AssetImage('assets/image/placeHolder.png')),
                               )
-                              // FadeInImage.assetNetwork(
-                              //     placeholder:'assets/image/placeHolder.png',
-                              //     image: sortedChannel[index].channelimage,
-                              //     height: height*0.08,
-                              //     width: width * 0.25,
-                              //     fit: BoxFit.fitHeight,
-                              //     fadeInDuration:const Duration(seconds: 5),
-                              //     fadeInCurve: Curves.bounceIn,
-                              //   )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 3),
                                   child: Image.asset(
@@ -277,23 +268,6 @@ class _ScrollState extends State<Scroll> {
                                       ),
                                     ),
                                 ),
-                            // (index == 5)
-                            //   ? Blur(
-                            //       blur: 2,
-                            //       child: Container(
-                            //         color: Colors.black12,
-                            //         //width: 200,
-                            //         //height: 25,
-                            //         child: Text(
-                            //           sortedChannel[index].channelname,
-                            //           style: TextStyle(
-                            //               fontWeight: FontWeight.bold,
-                            //               fontSize: height * 0.025),
-                            //           textAlign: TextAlign.center,
-                            //         ),
-                            //       ),
-                            //     )
-                            //   : 
                             Text(
                               sortedChannel[index].channelname,
                               style: TextStyle(

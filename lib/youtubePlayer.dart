@@ -59,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   PlayerState _playerState;
   YoutubeMetaData _videoMetaData;
   bool _isPlayerReady = false;
+  bool _onFullScreen = false;
   bool delay = false;
   String channelId='';
   bool lockVideo = false;
@@ -268,11 +269,13 @@ class _MyHomePageState extends State<MyHomePage> {
             onEnterFullScreen: () {
               SystemChrome.setPreferredOrientations(
                   [DeviceOrientation.landscapeLeft]);
+                _onFullScreen = true;
             },
             onExitFullScreen: () {
               // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
               //SystemChrome.setPreferredOrientations(DeviceOrientation.values);
               SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+                _onFullScreen = false;
             },
             player: YoutubePlayer(
               controller: _controller,
@@ -528,7 +531,8 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-          Positioned(
+          _onFullScreen == true
+          ? Positioned(
             top: height*0.105,
             right: width*0.03,
             child:IconButton(
@@ -545,12 +549,9 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: lockVideo==false?   const Icon(Icons.lock_outline):   const Icon(Icons.lock_open)
             ),
           )
+          : const SizedBox(height: 0,)
         ],
       ),
     );
   }
 }
-// class Controller extends GetxController{
-//   var lockVideo = false.obs;
-//   lock()=> lockVideo(!lockVideo.value);
-// }
