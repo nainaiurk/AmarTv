@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:keframe/keframe.dart';
+
 import 'package:live_tv/model/modelChannel.dart';
-import 'package:live_tv/theme_manager.dart';
 import 'package:live_tv/youtubePlayer.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Scroll extends StatefulWidget {
@@ -163,7 +162,6 @@ class _ScrollState extends State<Scroll> {
             estimateCount: sortedChannel.length*2,
             child: ListView.builder(
               cacheExtent: 100,
-              itemExtent: width * 0.28,
               shrinkWrap: true,
               physics: const AlwaysScrollableScrollPhysics (),
               scrollDirection: Axis.horizontal,
@@ -213,114 +211,108 @@ class _ScrollState extends State<Scroll> {
                       // _sendChannelInfo(sortedChannel[index]);
                     }
                   },
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
-                            // width: 8
-                          ),
-                          color: Colors.white12
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-                        height: height * 0.12,
-                        width: width * 0.28,
-                        child: Column(
-                          // mainAxisSize: MainAxisSize.min,
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const SizedBox(height: 3,),
-                            sortedChannel[index].channelurl !=null
-                              ? CachedNetworkImage(
-                                height: height*0.08,
-                                width: width * 0.25,
-                                fit: BoxFit.fitHeight,
-                                imageUrl: sortedChannel[index].channelimage,
-                                placeholder: (context, url) => const Image(image: AssetImage('assets/image/placeHolder.png')),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: sortedChannel[index].channelurl !=null
+                      ? CachedNetworkImage(      
+                        fit: BoxFit.fitHeight,
+                        imageUrl: sortedChannel[index].channelimage,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          radius: 45,
+                          backgroundColor: Colors.white,
+                          backgroundImage: imageProvider,
+                          child: Container(
+                            height: 90,
+                            width: 90,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black.withOpacity(0.3),
+                            ),          
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(10,10,10,12),
+                                child: Text(
+                                  sortedChannel[index].channelname,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    overflow: TextOverflow.visible,
+                                    color: Colors.white,
+                                    // fontWeight: FontWeight.bold,
+                                    backgroundColor: Colors.black38,
+                                    fontSize: 12,
+                                  ),
+                                ),
                               )
-                              : Padding(
-                                  padding: const EdgeInsets.only(top: 3),
-                                  child: Image.asset(
-                                      "assets/icon/icon.png",
-                                      height: height*0.07,
-                                      width: width * 0.25,
-                                      fit: BoxFit.fitHeight,).blurred(
-                                      blur: 4,
-                                      overlay: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.error_outline_sharp,
-                                            size: height *0.02,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "Not Live",
-                                            textAlign:TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize:width * 0.03,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                ),
-                            Text(
-                              sortedChannel[index].channelname,
-                              style: TextStyle(
-                                  //fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.0135,
-                                  // color: Colors.white60
-                                ),
-                              textAlign: TextAlign.center,
                             ),
-                          ]
+                          ),
+                        ),
+                        errorWidget: (context,a,dd){
+                          return  CircleAvatar(
+                            radius: 45,
+                            backgroundImage: const AssetImage('assets/image/placeHolder.png'),
+                            child: Container(
+                            height: 90,
+                            width: 90,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black.withOpacity(0.3),
+                            ),          
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(10,10,10,12),
+                                child: Text(
+                                  sortedChannel[index].channelname,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    overflow: TextOverflow.visible,
+                                    color: Colors.white,
+                                    // fontWeight: FontWeight.bold,
+                                    backgroundColor: Colors.black38,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              )
+                            ),
+                          ),
+                          );
+                        },
+                        placeholder: (context, url) => const CircleAvatar(
+                          radius: 45,
+                          backgroundImage: AssetImage('assets/image/placeHolder.png')
+                        )
+                      )
+                      : CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 47,
+                        child: Image.asset(
+                          "assets/icon/icon.png",
+                          fit: BoxFit.fitHeight,).blurred(
+                          borderRadius:BorderRadius.circular(60),
+                          blur: 4,
+                          overlay: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:  [
+                              const Icon(
+                                Icons.error_outline_sharp,
+                                size: 40,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                sortedChannel[index].channelname,
+                                textAlign:TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize:12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
                   ),
                 );
-                // : Column(
-                //     children: [
-                //       Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(5),
-                //             border: Border.all(
-                //               color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
-                //               // width: 8
-                //             ),
-                //             color: Colors.white12
-                //           ),
-                //           margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-                //           height: height * 0.12,
-                //           width: width * 0.28,
-                //           alignment: Alignment.topCenter,
-                //           child: Column(
-                //             children: [
-                //               const SizedBox(height: 10,),
-                //               Container(
-                //                 height: height*0.065,
-                //                 width: width * 0.25,
-                //                 child: AdWidget(ad: ads['myBanner$index'],)
-                //               ),
-                //               const SizedBox(height: 5,),
-                //               Text(
-                //                   'Amr TV',
-                //                   style: TextStyle(
-                //                       //fontWeight: FontWeight.bold,
-                //                       fontSize: height * 0.0135,
-                //                       // color: Colors.white60
-                //                     ),
-                //                   textAlign: TextAlign.center,
-                //                 ),
-                //             ],
-                //           ),
-                //         ),
-                //     ],
-                //   );
               },
             ),
           ),

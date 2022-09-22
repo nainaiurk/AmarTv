@@ -438,26 +438,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           return  const SizedBox(width: 20,);
                         },
                         itemBuilder: (context, index) {
-                          // print('pp');
-                          // print(allTVChannelCategory.length);
                           return InkWell(
-                            onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       settings:
-                              //       RouteSettings(name: 'youtube player'),
-                              //       builder: (context) => LiveTvPlayer(
-                              //         allchannel: channelController
-                              //             .allChannelGet,
-                              //         channel: channelController
-                              //             .allTVChannelCategory[index],
-                              //       )),
-                              // ).whenComplete(() {
-                              //   SystemChrome.setPreferredOrientations(
-                              //       [DeviceOrientation.portraitUp]);
-                              // });
-    
+                            onTap: () {    
                               setState(() {
                                 channel = channelController
                                     .allTVChannelCategory[index];
@@ -473,53 +455,34 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Column(
                               children: [
                                 const SizedBox(height: 5,),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                      color: Provider.of<ThemeNotifier>(context).getTheme().cardColor,
-                                      // width: 8
-                                    ),
-                                    color: Colors.white12
-                                  ),
-                                  height: height * 0.12,
-                                  width: width * 0.27,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      channelController.allTVChannelCategory[index].channelimage !=null
-                                        ? CachedNetworkImage(
-                                            height: height*0.08,
-                                            width: width * 0.25,
-                                            fit: BoxFit.fitHeight,
-                                            imageUrl: channelController.allTVChannelCategory[index].channelimage,
-                                            placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                            errorWidget: (context, url, error) =>
-                                              Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children:  const [
-                                                  Icon(Icons.error),
-                                                  Center(child: Text('No Image Found',textAlign: TextAlign.center,),),
-                                                ],
-                                              ),
-                                          )
-                                        : Container(),
-                                      Text(
-                                        channelController.allTVChannelCategory[index].channelname,
-                                        style: TextStyle(
-                                            //fontWeight: FontWeight.bold,
-                                            fontSize: height * 0.0135,
-                                            // color: Colors.white60
+                                channelController.allTVChannelCategory[index].channelimage !=null
+                                  ? CircleAvatar(
+                                    backgroundColor: Colors.red[100],
+                                    radius: 45,
+                                    child: CachedNetworkImage(
+                                        fit: BoxFit.fitHeight,
+                                        imageUrl: channelController.allTVChannelCategory[index].channelimage,
+                                        imageBuilder: (context, imageProvider) => Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: imageProvider, fit: BoxFit.contain),
                                           ),
-                                        textAlign: TextAlign.center,
+                                        ),
+                                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) =>
+                                          Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children:  [
+                                              const Icon(Icons.error),
+                                              Center(child: Text(channelController.allTVChannelCategory[index].channelname,textAlign: TextAlign.center,),),
+                                            ],
+                                        ),
                                       ),
-                                      // Image.network("${allTVChannelCategory[index].channelimage}",scale: 5,),
-                                      // Text('lol'),
-                                    ],
-                                  ),
-                                ),
+                                  )
+                                  : Container(),
                               ],
                             ),
                           );

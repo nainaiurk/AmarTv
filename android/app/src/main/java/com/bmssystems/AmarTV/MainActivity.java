@@ -1,4 +1,4 @@
-package com.bmsglobalbd.AmarTV;
+package com.bmssystems.AmarTV;
 
 import io.flutter.embedding.android.FlutterActivity;
 

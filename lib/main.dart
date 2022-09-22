@@ -38,7 +38,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   RequestConfiguration configuration =
-  RequestConfiguration(testDeviceIds:["ED31222F2DB8F18FF3498045EF4E6BB6"]);
+  RequestConfiguration();
   MobileAds.instance.updateRequestConfiguration(configuration);
   MobileAds.instance.initialize();
   await Firebase.initializeApp();
@@ -111,13 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool loggedIn;
   final ValueNotifier<int> checkIndex = ValueNotifier(0);
 
-  // Future<void> _sendChannelInfo(
-  //     FirebaseAnalytics a, ModelChannel modelChannel) async {
-  //   await a.logEvent(name: "Tapped_Channel", parameters: <String, String>{
-  //     "Channel_Name": modelChannel.channelname,
-  //
-  //   });
-  // }
   Future<bool> userLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool temp = (prefs.getBool('logged') ?? false);
@@ -174,15 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         onPressed: () {
-                          // _setToZero();
-                          //Navigator.of(context, rootNavigator: true).pop();
-                          // Navigator.pop(buildContext);
-                          // Navigator.pop(buildContext);
                           Navigator.of(c, rootNavigator: true).pop();
-                          //_incrementCounter();// for fixing bug
-
-                          //Navigator.of(context, rootNavigator: true).pop(context);
-                          //Navigator.of(context).popUntil((route) => false);
                         },
                       ),
                     ),
@@ -207,10 +192,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               MaterialPageRoute(
                                   settings: const RouteSettings(name: "Sign up"),
                                   builder: (_) => const SignUp()));
-
-                          // Navigator.pop(c);
-                          //Navigator.of(c, rootNavigator: true).pop();
-                          //Navigator.pop(c);
                         },
                       ),
                     ),
@@ -266,14 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       onPressed: () {
-                        //Navigator.of(context, rootNavigator: true).pop();
-                        // Navigator.pop(buildContext);
-                        // Navigator.pop(buildContext);
                         SystemNavigator.pop();
-                        //_incrementCounter();// for fixing bug
-
-                        //Navigator.of(context, rootNavigator: true).pop(context);
-                        //Navigator.of(context).popUntil((route) => false);
                       },
                     ),
                   ),
@@ -293,16 +267,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         _launchURL(
                             "https://play.google.com/store/apps/details?id=com.bmsglobalbd.AmarTV");
-                        // Navigator.of(c, rootNavigator: true).pop();
-                        // Navigator.push(
-                        //     c,
-                        //     MaterialPageRoute(
-                        //         settings: RouteSettings(name: "Sign up"),
-                        //         builder: (_) => SignUp()));
-
-                        // Navigator.pop(c);
-                        //Navigator.of(c, rootNavigator: true).pop();
-                        //Navigator.pop(c);
                       },
                     ),
                   ),
@@ -632,7 +596,7 @@ class _MyHomePageState extends State<MyHomePage> {
     checkVersion();
     getUser();
     _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-6179877812536274/4678053285',
+      adUnitId: 'ca-app-pub-6179877812536274/4748807648',
       request: const AdRequest(),
       size: const AdSize(height: 400,width: 380),
       listener: BannerAdListener(

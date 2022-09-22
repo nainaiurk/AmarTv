@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bmsglobalbd.AmarTV">
+    package="com.bmssystems.AmarTV">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
    <application
@@ -59,7 +59,7 @@
         </activity>
        <meta-data
            android:name="com.google.android.gms.ads.APPLICATION_ID"
-           android:value="ca-app-pub-6179877812536274~4734378086"/>
+           android:value="ca-app-pub-6179877812536274~6165282359"/>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
