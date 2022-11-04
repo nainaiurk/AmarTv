@@ -422,34 +422,18 @@ class _RegistrationState extends State<Registration> {
               width: double.infinity,
               height: 30.0,
             ),
-            RaisedButton(
-              color: Colors.grey,
+            ElevatedButton(
               onPressed: () {
-                // print(_fullNameController.text);
-                // print(_emailController.text);
-                // print(_userNameController.text);
-                // print(_passwordController.text);
                 createUser(_fullNameController.text, _emailController.text,
                     _userNameController.text, _passwordController.text);
                 //to be added
-
                 print(s);
 
               },
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
               child: Container(
-                decoration: const BoxDecoration(
-                  // gradient: LinearGradient(
-                  //   colors: <Color>[
-                  //     Color(0xFF0D47A1),
-                  //     Color(0xFF1976D2),
-                  //     Color(0xFF42A5F5),
-                  //   ],
-                  // ),
-                ),
+                color: Colors.grey,
                 padding: const EdgeInsets.all(10.0),
-                child: const Text('Sign Up', style: TextStyle(fontSize: 20)),
+                child: const Text('Sign Up', style: TextStyle(fontSize: 20,color: Colors.white)),
               ),
             ),
             const SizedBox(

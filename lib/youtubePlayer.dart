@@ -309,6 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ): null
                   ),
                 body: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     delay
@@ -424,66 +425,109 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),     
                     Container(
-                      margin:   const EdgeInsets.only(left: 15,top: 15),
+                      margin:   const EdgeInsets.only(left: 15,top: 20),
                       child:  const Text('Watch More',style: TextStyle(fontSize: 20),),
                     ),
-                    Expanded(
-                      child: ListView.separated(
+                    Container(
+                      height: 120,
+                      child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         padding:  const EdgeInsets.symmetric(horizontal: 15),
                         itemCount: channelController.allTVChannelCategory.length,
                         clipBehavior: Clip.antiAlias,
-                        separatorBuilder: (BuildContext context, int index) {
-                          return  const SizedBox(width: 20,);
-                        },
+                        // separatorBuilder: (BuildContext context, int index) {
+                        //   return  const SizedBox(width: 20,);
+                        // },
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {    
                               setState(() {
                                 channel = channelController
                                     .allTVChannelCategory[index];
-    
+                        
                                 _controller.load(channelController
                                     .allTVChannelCategory[index].channelurl);
                               });
-    
+                        
                               channelController.getChannels(channelController.allTVChannelCategory[index]);
                               // _loadCounter();
                               // decrement();
                             },
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 5,),
-                                channelController.allTVChannelCategory[index].channelimage !=null
-                                  ? CircleAvatar(
-                                    backgroundColor: Colors.red[100],
+                            child: Container(
+                              // height: 200,
+                              padding:const EdgeInsets.only(right: 15),
+                              child: channelController.allTVChannelCategory[index].channelimage !=null
+                                ? CachedNetworkImage(
+                                  fit: BoxFit.fitHeight,
+                                  imageUrl: channelController.allTVChannelCategory[index].channelimage,
+                                  imageBuilder: (context, imageProvider) => CircleAvatar(
                                     radius: 45,
-                                    child: CachedNetworkImage(
-                                        fit: BoxFit.fitHeight,
-                                        imageUrl: channelController.allTVChannelCategory[index].channelimage,
-                                        imageBuilder: (context, imageProvider) => Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: imageProvider, fit: BoxFit.contain),
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: imageProvider,
+                                    child: Container(
+                                      height: 90,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black.withOpacity(0.3),
+                                      ),          
+                                      child: Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(10,10,10,12),
+                                          child: Text(
+                                            channelController.allTVChannelCategory[index].channelname,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              overflow: TextOverflow.visible,
+                                              color: Colors.white,
+                                              // fontWeight: FontWeight.bold,
+                                              backgroundColor: Colors.black38,
+                                              fontSize: 12,
+                                            ),
                                           ),
-                                        ),
-                                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                        errorWidget: (context, url, error) =>
-                                          Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children:  [
-                                              const Icon(Icons.error),
-                                              Center(child: Text(channelController.allTVChannelCategory[index].channelname,textAlign: TextAlign.center,),),
-                                            ],
-                                        ),
+                                        )
                                       ),
+                                    ),
+                                  ),
+                                  errorWidget: (context,a,dd){
+                                    return  CircleAvatar(
+                                      radius: 45,
+                                      backgroundImage: const AssetImage('assets/image/placeHolder.png'),
+                                      child: Container(
+                                      height: 90,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black.withOpacity(0.3),
+                                      ),          
+                                      child: Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(10,10,10,12),
+                                          child: Text(
+                                            channelController.allTVChannelCategory[index].channelname,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              overflow: TextOverflow.visible,
+                                              color: Colors.white,
+                                              // fontWeight: FontWeight.bold,
+                                              backgroundColor: Colors.black38,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        )
+                                      ),
+                                    ),
+                                    );
+                                  },
+                                  placeholder: (context, url) => const CircleAvatar(
+                                    radius: 45,
+                                    backgroundImage: AssetImage('assets/image/placeHolder.png')
                                   )
-                                  : Container(),
-                              ],
+                                )
+                                : Container(),
                             ),
                           );
                         }
